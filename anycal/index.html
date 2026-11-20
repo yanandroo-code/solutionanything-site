@@ -91,6 +91,15 @@ h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
 .btn-secondary:hover { background: var(--surface-raised); }
 
 /* Nav */
+.topbar {
+  background: var(--surface); border-bottom: 1px solid var(--surface-border);
+  font-size: .78rem; font-family: var(--mono); letter-spacing: .02em; color: var(--fg-muted);
+}
+.topbar .wrap { display: flex; align-items: center; justify-content: space-between; height: 32px; gap: 16px; }
+.topbar a { color: var(--fg); text-decoration: none; font-weight: 600; }
+.topbar a:hover { color: var(--accent); }
+.topbar a span { color: var(--accent); }
+
 .nav {
   position: sticky; top: 0; z-index: 50;
   background: color-mix(in srgb, var(--bg) 82%, transparent);
@@ -231,6 +240,13 @@ footer a:hover { color: var(--accent); }
 </head>
 <body>
 
+<div class="topbar">
+  <div class="wrap">
+    <span>Part of the <a href="/anysuite/">Any<span>+</span> Suite</a></span>
+    <span>by <a href="/">Solution<span>Anything</span></a></span>
+  </div>
+</div>
+
 <header class="nav">
   <div class="wrap">
     <a class="brand" href="#"><img src="brand/png/icon-180.png" alt="" width="32" height="32">AnyCal<span>+</span></a>
@@ -239,8 +255,6 @@ footer a:hover { color: var(--accent); }
       <li><a href="#gallery">Screenshots</a></li>
       <li><a href="setup.html">Setup guide</a></li>
       <li><a href="#pricing">Editions</a></li>
-      <li><a href="/anysuite/">Any+ Suite</a></li>
-      <li><a href="/">Solution Anything</a></li>
     </ul>
     <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install</a>
   </div>
