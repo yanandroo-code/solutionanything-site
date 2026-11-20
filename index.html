@@ -212,6 +212,9 @@ h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
 }
 .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
 .field textarea { resize: vertical; min-height: 120px; }
+.success { text-align: center; padding: 40px 20px; }
+.success h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+.success p { color: var(--fg-muted); }
 
 /* Footer */
 footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
@@ -297,7 +300,7 @@ footer a:hover { color: var(--accent); }
 
     <div class="suite-header" style="margin-top: 48px;">
       <div class="suite-badge">Free on the Salesforce AppExchange</div>
-      <h2 style="font-size: clamp(1.5rem, 2.8vw, 2rem);"><a href="/anysuite/" style="color: inherit; text-decoration: none;">The Any+ Suite</a></h2>
+      <h2 style="font-size: clamp(1.5rem, 2.8vw, 2rem);"><a href="/anysuite/" style="color: inherit; text-decoration: none;">The <span style="color: var(--accent);">Any+ Suite</span></a></h2>
       <p class="lead">Four Lightning Web Components in one package. Drop them on any record page, pick an object and configure in clicks. No code, no data leaving your org.</p>
     </div>
     <div class="apps-grid">
@@ -361,34 +364,31 @@ footer a:hover { color: var(--accent); }
           <span>solutionanything.co.uk</span>
         </div>
       </div>
-      <form class="form" action="https://formspree.io/f/PLACEHOLDER" method="POST">
-        <div class="row">
-          <div class="field">
-            <label>Name <span class="req">*</span></label>
-            <input type="text" name="name" required>
+      <div>
+        <form id="contactForm" class="form" novalidate>
+          <div class="row">
+            <div class="field"><label for="cf-name">Name <span class="req">*</span></label><input type="text" id="cf-name" name="entry.NAME_ID" required></div>
+            <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input type="email" id="cf-email" name="entry.EMAIL_ID" required></div>
           </div>
-          <div class="field">
-            <label>Email <span class="req">*</span></label>
-            <input type="email" name="email" required>
+          <div class="row">
+            <div class="field"><label for="cf-company">Company / Org Name</label><input type="text" id="cf-company" name="entry.COMPANY_ID"></div>
+            <div class="field"><label for="cf-type">What can we help with? <span class="req">*</span></label>
+              <select id="cf-type" required>
+                <option value="" disabled selected>Choose a topic...</option>
+                <option>Salesforce consultancy</option>
+                <option>Custom development</option>
+                <option>Any+ Suite support</option>
+                <option>iOS app development</option>
+                <option>Something else</option>
+              </select>
+              <input type="hidden" id="cf-type-hidden" name="entry.TYPE_ID">
+            </div>
           </div>
-        </div>
-        <div class="field">
-          <label>What can we help with?</label>
-          <select name="subject">
-            <option value="">Choose a topic...</option>
-            <option value="consultancy">Salesforce consultancy</option>
-            <option value="custom-dev">Custom development</option>
-            <option value="anysuite">Any+ Suite support</option>
-            <option value="ios">iOS app development</option>
-            <option value="other">Something else</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Message <span class="req">*</span></label>
-          <textarea name="message" required placeholder="Tell us about your project or question..."></textarea>
-        </div>
-        <button class="btn btn-primary" type="submit" style="justify-content: center;">Send message</button>
-      </form>
+          <div class="field"><label for="cf-message">Message <span class="req">*</span></label><textarea id="cf-message" name="entry.MESSAGE_ID" required placeholder="Tell us about your project or question..."></textarea></div>
+          <div><button type="submit" class="btn btn-primary" id="cf-submit" style="justify-content: center;">Send message</button></div>
+        </form>
+        <div id="formSuccess" class="success" hidden><h3>Message sent</h3><p>Thanks for reaching out. We'll get back to you within one working day.</p></div>
+      </div>
     </div>
   </div>
 </section>
@@ -403,6 +403,30 @@ footer a:hover { color: var(--accent); }
     </ul>
   </div>
 </footer>
+
+<script>
+(function () {
+  var select = document.getElementById('cf-type');
+  var hidden = document.getElementById('cf-type-hidden');
+  select.addEventListener('change', function () { hidden.value = select.value; });
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = this, btn = document.getElementById('cf-submit'), email = document.getElementById('cf-email');
+    if (!select.value) { select.setCustomValidity('Please choose a topic.'); form.reportValidity(); select.setCustomValidity(''); return; }
+    hidden.value = select.value;
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value)) {
+      email.setCustomValidity('Please enter a valid email address.'); form.reportValidity(); email.setCustomValidity(''); return;
+    }
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    var done = function () { form.hidden = true; document.getElementById('formSuccess').hidden = false; };
+    fetch('https://docs.google.com/forms/d/e/FORM_ID_HERE/formResponse', {
+      method: 'POST', body: new FormData(form), mode: 'no-cors'
+    }).then(done).catch(done);
+  });
+})();
+</script>
 
 </body>
 </html>
