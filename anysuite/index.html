@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Any+ Suite — Free Salesforce Lightning Components</title>
+<meta name="description" content="Four free Lightning Web Components in one AppExchange package. Calendar, Kanban, Gantt and Hierarchy views for any Salesforce record page. No code, no data leaving your org.">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<link rel="canonical" href="https://solutionanything.co.uk/anysuite/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Solution Anything">
+<meta property="og:title" content="Any+ Suite — Free Salesforce Lightning Components">
+<meta property="og:description" content="Four free Lightning Web Components in one AppExchange package. Calendar, Kanban, Gantt and Hierarchy views for any record page.">
+<meta property="og:url" content="https://solutionanything.co.uk/anysuite/">
+<meta property="og:locale" content="en_GB">
+<meta name="twitter:card" content="summary">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root {
+  --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577;
+  --accent: #0B6FCC; --accent-hover: #0958A5;
+  --surface: #FFFFFF; --surface-border: #E2E6EC; --surface-raised: #F0F3F7;
+  --gradient-start: #0B6FCC; --gradient-end: #2E9BF0;
+  --shadow: 0 1px 2px rgba(27,35,50,.05), 0 12px 32px -8px rgba(27,35,50,.14);
+  --font: 'DM Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+    --accent: #4EACF7; --accent-hover: #6DBEF9;
+    --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+    --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+  --accent: #4EACF7; --accent-hover: #6DBEF9;
+  --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+  --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+  color-scheme: dark;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
+.eyebrow { font-family: var(--mono); font-size: 12px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; }
+.section { padding: 88px 0; }
+.section h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 700; margin-bottom: 14px; }
+.section .lead { font-size: 1.08rem; color: var(--fg-muted); max-width: 600px; margin-bottom: 44px; }
+
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--font); text-decoration: none; padding: 12px 22px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; transition: background .15s, transform .1s, border-color .15s; }
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--surface-border); }
+.btn-secondary:hover { background: var(--surface-raised); }
+
+.nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--surface-border); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; list-style: none; padding: 0; }
+.nav-links a { font-size: .92rem; font-weight: 500; color: var(--fg-muted); text-decoration: none; }
+.nav-links a:hover { color: var(--fg); }
+.back-link { font-size: .85rem; color: var(--fg-muted); text-decoration: none; display: flex; align-items: center; gap: 4px; }
+.back-link:hover { color: var(--accent); }
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+.hero { padding: 96px 0 72px; text-align: center; }
+.hero h1 { font-size: clamp(2.4rem, 5vw, 3.6rem); font-weight: 700; margin-bottom: 20px; }
+.hero h1 span { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.2rem; color: var(--fg-muted); max-width: 600px; margin: 0 auto 36px; }
+.hero-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+.apps-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
+@media (max-width: 680px) { .apps-grid { grid-template-columns: 1fr; } }
+.app-card { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px; padding: 32px 28px; text-decoration: none; color: var(--fg); display: grid; grid-template-columns: 64px 1fr; gap: 20px; align-items: start; transition: border-color .15s, transform .15s; }
+.app-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+.app-card img { width: 64px; height: 64px; border-radius: 14px; }
+.app-card h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 6px; }
+.app-card p { font-size: .92rem; color: var(--fg-muted); line-height: 1.55; margin-bottom: 10px; }
+.app-card .link { font-size: .88rem; font-weight: 600; color: var(--accent); }
+
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+.feature { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px; padding: 26px 24px; }
+.feature-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+.feature h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.feature p { font-size: .92rem; color: var(--fg-muted); line-height: 1.55; }
+
+.cta-band { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); border-radius: 20px; padding: 56px 40px; text-align: center; color: #fff; }
+.cta-band h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 700; margin-bottom: 14px; color: #fff; }
+.cta-band p { font-size: 1.08rem; opacity: .9; max-width: 520px; margin: 0 auto 28px; }
+.cta-band .btn { background: #fff; color: var(--accent); font-weight: 700; }
+.cta-band .btn:hover { background: #F0F3F7; }
+
+footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+footer p { font-size: .85rem; color: var(--fg-muted); }
+footer a { font-size: .85rem; color: var(--fg-muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 600px) { .section { padding: 56px 0; } .hero { padding: 64px 0 48px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="back-link" href="/">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Solution Anything
+    </a>
+    <ul class="nav-links">
+      <li><a href="#components">Components</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#get-started">Get started</a></li>
+    </ul>
+    <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install free</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Free on the AppExchange</div>
+    <h1>The <span>Any+ Suite</span></h1>
+    <p>Four Lightning Web Components in one managed package. Calendar, Kanban, Gantt and Hierarchy views that work on any object, any record page. Configure in clicks, not code.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install from AppExchange</a>
+      <a class="btn btn-secondary" href="#components">See the components</a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="components">
+  <div class="wrap">
+    <div class="eyebrow">Components</div>
+    <h2>Four tools, one install</h2>
+    <p class="lead">Each component is a self-contained Lightning Web Component. Install the package once and use whichever you need.</p>
+    <div class="apps-grid">
+      <a class="app-card" href="/anycal/">
+        <img src="../anycal/brand/icon.svg" alt="AnyCal+ icon" width="64" height="64">
+        <div>
+          <h3>AnyCal+</h3>
+          <p>Show related records as calendar events. Monthly, weekly, daily and agenda views with drag-and-drop rescheduling and inline record creation.</p>
+          <span class="link">Learn more &rarr;</span>
+        </div>
+      </a>
+      <a class="app-card" href="/anykanban/">
+        <img src="../anykanban/brand/icon.svg" alt="AnyKanban+ icon" width="64" height="64">
+        <div>
+          <h3>AnyKanban+</h3>
+          <p>Drag-and-drop Kanban board driven by any picklist field. Cards move between columns and update the record instantly. Compact and full views.</p>
+          <span class="link">Learn more &rarr;</span>
+        </div>
+      </a>
+      <a class="app-card" href="/anygantt/">
+        <img src="../anygantt/brand/icon.svg" alt="AnyGantt+ icon" width="64" height="64">
+        <div>
+          <h3>AnyGantt+</h3>
+          <p>Scrollable Gantt timeline. Pick start and end date fields and records appear as colour-coded bars across day, week or month zoom levels.</p>
+          <span class="link">Learn more &rarr;</span>
+        </div>
+      </a>
+      <a class="app-card" href="/anyhierarchy/">
+        <img src="../anyhierarchy/brand/icon.svg" alt="AnyHierarchy+ icon" width="64" height="64">
+        <div>
+          <h3>AnyHierarchy+</h3>
+          <p>Expandable tree view for self-referencing objects. Pick a parent lookup field and see the full ancestor and descendant chain on the record page.</p>
+          <span class="link">Learn more &rarr;</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features" style="background: var(--surface-raised); border-top: 1px solid var(--surface-border); border-bottom: 1px solid var(--surface-border);">
+  <div class="wrap">
+    <div class="eyebrow">Shared platform</div>
+    <h2>What every component has in common</h2>
+    <p class="lead">Built on the same architecture, following the same principles.</p>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Any object, any record page</h3>
+        <p>No hardcoded objects or fields. Configure the child object, lookup and display fields from a point-and-click modal.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+        <h3>Permission-aware</h3>
+        <p>Respects object and field-level security. All queries run in user mode. Admin actions need a dedicated permission set.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 01-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 01-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 012.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 012.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></div>
+        <h3>Click-to-configure</h3>
+        <p>No code, no metadata files, no deployments. Admins set up each view from a configuration modal on the record page.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>Native Lightning</h3>
+        <p>No iframes, no external services, no data leaving your org. Runs entirely inside Salesforce as a managed package.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+        <h3>Free forever</h3>
+        <p>The full suite is free on the AppExchange. No trial, no feature gates, no surprise invoices.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <h3>Consulting available</h3>
+        <p>Need help with setup, customisation or a bespoke build on top of the suite? We offer hands-on consulting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="get-started">
+  <div class="wrap" style="text-align: center;">
+    <div class="cta-band">
+      <h2>Ready to get started?</h2>
+      <p>Install the Any+ Suite from the AppExchange, add a component to any record page, and configure it in under a minute.</p>
+      <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <a class="btn" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install from AppExchange</a>
+        <a class="btn" href="/" style="background: rgba(255,255,255,.15); color: #fff;">Back to Solution Anything</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 <a href="/">Solution Anything</a></p>
+    <div style="display: flex; gap: 20px;">
+      <a href="/anycal/">AnyCal+</a>
+      <a href="/anykanban/">AnyKanban+</a>
+      <a href="/anygantt/">AnyGantt+</a>
+      <a href="/anyhierarchy/">AnyHierarchy+</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
