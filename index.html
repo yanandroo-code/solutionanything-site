@@ -367,11 +367,11 @@ footer a:hover { color: var(--accent); }
       <div>
         <form id="contactForm" class="form" novalidate>
           <div class="row">
-            <div class="field"><label for="cf-name">Name <span class="req">*</span></label><input type="text" id="cf-name" name="entry.NAME_ID" required></div>
-            <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input type="email" id="cf-email" name="entry.EMAIL_ID" required></div>
+            <div class="field"><label for="cf-name">Name <span class="req">*</span></label><input type="text" id="cf-name" name="entry.531518552" required></div>
+            <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input type="email" id="cf-email" name="entry.103360093" required></div>
           </div>
           <div class="row">
-            <div class="field"><label for="cf-company">Company / Org Name</label><input type="text" id="cf-company" name="entry.COMPANY_ID"></div>
+            <div class="field"><label for="cf-company">Company / Org Name</label><input type="text" id="cf-company" name="entry.564826811"></div>
             <div class="field"><label for="cf-type">What can we help with? <span class="req">*</span></label>
               <select id="cf-type" required>
                 <option value="" disabled selected>Choose a topic...</option>
@@ -381,10 +381,10 @@ footer a:hover { color: var(--accent); }
                 <option>iOS app development</option>
                 <option>Something else</option>
               </select>
-              <input type="hidden" id="cf-type-hidden" name="entry.TYPE_ID">
+              <input type="hidden" id="cf-type-hidden" name="entry.612991989">
             </div>
           </div>
-          <div class="field"><label for="cf-message">Message <span class="req">*</span></label><textarea id="cf-message" name="entry.MESSAGE_ID" required placeholder="Tell us about your project or question..."></textarea></div>
+          <div class="field"><label for="cf-message">Message <span class="req">*</span></label><textarea id="cf-message" name="entry.1088586860" required placeholder="Tell us about your project or question..."></textarea></div>
           <div><button type="submit" class="btn btn-primary" id="cf-submit" style="justify-content: center;">Send message</button></div>
         </form>
         <div id="formSuccess" class="success" hidden><h3>Message sent</h3><p>Thanks for reaching out. We'll get back to you within one working day.</p></div>
@@ -421,7 +421,7 @@ footer a:hover { color: var(--accent); }
     }
     btn.textContent = 'Sending…'; btn.disabled = true;
     var done = function () { form.hidden = true; document.getElementById('formSuccess').hidden = false; };
-    fetch('https://docs.google.com/forms/d/e/FORM_ID_HERE/formResponse', {
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSerWWOh-6B75PiFq3dk0nr5CnzYcuZz3qZv0VWHx1_lAnyi7Q/formResponse', {
       method: 'POST', body: new FormData(form), mode: 'no-cors'
     }).then(done).catch(done);
   });
