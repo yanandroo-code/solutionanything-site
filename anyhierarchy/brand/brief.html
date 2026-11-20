@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnyRecordHierarchy+ Brand Brief</title>
+<meta name="description" content="Brand system, mascot family, asset list and image prompts for AnyRecordHierarchy+.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577;
+  --accent: #0B6FCC; --accent-2: #2E9BF0; --warm: #F2A33A;
+  --surface: #FFFFFF; --border: #E2E6EC; --raised: #F0F3F7;
+  --danger: #B42318; --danger-bg: #FEF3F2; --ok: #067647; --ok-bg: #ECFDF3;
+  --font: 'DM Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+    --accent: #4EACF7; --accent-2: #6DBEF9; --surface: #1A1F28; --border: #2A3140; --raised: #222935;
+    --danger: #F97066; --danger-bg: #2A1816; --ok: #4ADE80; --ok-bg: #0F2A1C; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+  --accent: #4EACF7; --accent-2: #6DBEF9; --surface: #1A1F28; --border: #2A3140; --raised: #222935;
+  --danger: #F97066; --danger-bg: #2A1816; --ok: #4ADE80; --ok-bg: #0F2A1C; color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0;
+}
+.wrap { max-width: 820px; margin: 0 auto; padding-block: 48px 80px; }
+header { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; margin-bottom: 8px; }
+header img { width: 72px; height: 72px; }
+h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; }
+.meta { font-family: var(--mono); font-size: 12px; color: var(--fg-muted); letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 40px; }
+h2 { font-size: 1.35rem; font-weight: 700; letter-spacing: -0.01em; margin: 56px 0 14px; padding-top: 16px; border-top: 1px solid var(--border); text-wrap: balance; }
+h3 { font-size: 1rem; font-weight: 600; margin: 24px 0 8px; }
+p, li { color: var(--fg); max-width: 68ch; }
+p.lead { color: var(--fg-muted); }
+ul { padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--raised); padding: 1px 6px; border-radius: 4px; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; margin-top: 12px; }
+.swatch { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--surface); }
+.swatch .chip { height: 64px; }
+.swatch .label { padding: 8px 10px; font-size: 12px; }
+.swatch .label b { display: block; font-weight: 600; }
+.swatch .label code { background: none; padding: 0; color: var(--fg-muted); }
+.logos { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 12px; }
+.logo-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.logo-card.dark { background: #1B2332; }
+.logo-card img { max-width: 100%; height: auto; }
+.logo-card span { font-family: var(--mono); font-size: 11px; color: var(--fg-muted); letter-spacing: 0.04em; }
+.logo-card.dark span { color: #8B95A5; }
+.mascots { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin-top: 12px; }
+.mascot { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.mascot h3 { margin: 0 0 4px; }
+.mascot .role { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.mascot .fur { display: flex; gap: 6px; margin: 10px 0; }
+.mascot .fur i { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--border); display: block; }
+.mascot p { font-size: 0.9rem; color: var(--fg-muted); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-top: 12px; }
+.rule { border-radius: 12px; padding: 16px 18px; }
+.rule.no { background: var(--danger-bg); border: 1px solid color-mix(in srgb, var(--danger) 30%, transparent); }
+.rule.yes { background: var(--ok-bg); border: 1px solid color-mix(in srgb, var(--ok) 30%, transparent); }
+.rule h3 { margin: 0 0 8px; }
+.rule.no h3 { color: var(--danger); }
+.rule.yes h3 { color: var(--ok); }
+.rule li { font-size: 0.92rem; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9rem; margin-top: 12px; }
+.table-wrap { overflow-x: auto; }
+th, td { text-align: left; padding: 10px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); font-weight: 500; }
+td.num { font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.prompt { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; margin-top: 14px; }
+.prompt-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 8px; }
+.prompt-head h3 { margin: 0; }
+.prompt pre { font-family: var(--mono); font-size: 13px; line-height: 1.55; white-space: pre-wrap; word-break: break-word; color: var(--fg); background: var(--raised); border-radius: 8px; padding: 12px 14px; }
+button.copy { font-family: var(--font); font-size: 13px; font-weight: 600; color: var(--accent); background: none; border: 1px solid var(--border); border-radius: 6px; padding: 5px 12px; cursor: pointer; }
+button.copy:hover { background: var(--raised); }
+button.copy:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+figure { margin: 12px 0 0; }
+figure img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+figcaption { font-size: 12px; color: var(--fg-muted); margin-top: 6px; font-family: var(--mono); }
+.spec { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-top: 12px; }
+.spec div { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 0.9rem; }
+.spec b { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--fg-muted); font-weight: 500; margin-bottom: 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <img src="icon.svg" alt="AnyRecordHierarchy+ icon">
+  <h1>AnyRecordHierarchy+ Brand Brief</h1>
+</header>
+<p class="meta">v1 · November 2026 · for illustrators, designers and image models</p>
+
+<p class="lead">AnyRecordHierarchy+ is a Salesforce AppExchange app that shows a record's parents and children as an expandable tree on any record page. This brief extends the Any+ family brand system (shared icon tile, palette, typefaces, mascot family) established in the AnyCal+ and AnyKanban+ briefs, and proposes a fourth mascot. Follow it exactly for colors and the icon; use your judgment inside the illustration style rules.</p>
+
+<h2 id="palette">1. Palette</h2>
+<p>Shared across the Any+ family. Brand blue is reserved for the icon tile, buttons and UI. Illustrations use the full set, with warm amber and the mascot fur tones to keep scenes from feeling monochrome. Use flat fills; one shade tone per color for shadows (darken ~12%, no black).</p>
+<div class="swatches">
+  <div class="swatch"><div class="chip" style="background:#0B6FCC"></div><div class="label"><b>Brand Blue</b><code>#0B6FCC</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#2E9BF0"></div><div class="label"><b>Sky Blue</b><code>#2E9BF0</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#F2A33A"></div><div class="label"><b>Amber</b><code>#F2A33A</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#1B2332"></div><div class="label"><b>Ink</b><code>#1B2332</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#5A6577"></div><div class="label"><b>Slate</b><code>#5A6577</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#F0F3F7; border-bottom:1px solid #E2E6EC"></div><div class="label"><b>Mist</b><code>#F0F3F7</code></div></div>
+  <div class="swatch"><div class="chip" style="background:#FAFBFC; border-bottom:1px solid #E2E6EC"></div><div class="label"><b>Paper</b><code>#FAFBFC</code></div></div>
+</div>
+
+<h2 id="type">2. Typography</h2>
+<div class="spec">
+  <div><b>Display &amp; body</b>DM Sans — 700 for headings and the wordmark, 400/500 for text. Letter-spacing −0.02em on large headings.</div>
+  <div><b>Labels &amp; data</b>IBM Plex Mono — 500, uppercase, +0.06em tracking for eyebrows and captions.</div>
+  <div><b>Wordmark</b>"AnyRecordHierarchy" in Ink, "+" in Brand Blue, DM Sans Bold, tracking −2. Convert to outlines in final SVGs.</div>
+</div>
+
+<h2 id="icon">3. Icon system</h2>
+<p>Every product shares the same tile: a rounded square (corner radius 22% of width), Brand Blue → Sky Blue gradient at 135°, and a single white glyph. The glyph is the only thing that changes between products. For AnyRecordHierarchy+ the glyph is a small org chart: one white rounded node at the top, a thin connector down to a rail, and three white nodes hanging below it. No plus sign. Never add outlines, inner shadows or extra colors to the tile.</p>
+<div class="logos">
+  <div class="logo-card"><img src="icon.svg" alt="AnyRecordHierarchy+ icon tile" width="120" height="120"><span>icon.svg · master</span></div>
+  <div class="logo-card"><img src="logo-horizontal.svg" alt="AnyRecordHierarchy+ horizontal logo" width="320"><span>logo-horizontal.svg</span></div>
+  <div class="logo-card"><img src="logo-stacked.svg" alt="AnyRecordHierarchy+ stacked logo" width="160"><span>logo-stacked.svg</span></div>
+  <div class="logo-card dark"><img src="icon.svg" alt="AnyRecordHierarchy+ icon on dark" width="96" height="96"><span>on dark: tile unchanged</span></div>
+</div>
+<ul style="margin-top:14px">
+  <li>Clear space around the tile: 25% of its width on all sides.</li>
+  <li>Minimum size: 16px (favicon). The plus must stay legible at that size, so never thin the glyph.</li>
+  <li>In illustrations the tile is a physical object: a glossy-free, flat-colored block the mascots can carry, mount or point at. Draw it exactly as <code>icon.svg</code>; do not redraw it by hand.</li>
+</ul>
+
+<h2 id="mascots">4. Mascot family</h2>
+<p>Shared across the Any+ family. One hero per product. Otto, Pim and Penny are already the heroes of AnyCal+, AnyKanban+ and AnyGantt+, so AnyRecordHierarchy+ introduces a fourth character, Sage the squirrel (tree climber, for a tree component). The three existing characters appear as helpers. Big heads (about 40% of total height), small rounded bodies, simple dot eyes with a single highlight, small mouths, no outlines, flat fills with one shadow tone per color.</p>
+<div class="mascots">
+  <div class="mascot">
+    <h3>Sage — the squirrel</h3>
+    <div class="role">Hero · AnyRecordHierarchy+ (new character, proposed)</div>
+    <div class="fur"><i style="background:#8E99A8"></i><i style="background:#F3E3C9"></i><i style="background:#1B2332"></i><i style="background:#F2A33A"></i></div>
+    <p>Grey fur <code>#8E99A8</code>, cream belly and cheeks, big fluffy tail with a darker tip, small tufted ears with amber tips. Thoughtful and quick: the climber who knows every branch of the tree. Shown moving between nodes of a wall-mounted tree diagram, or perched on top of it. Wears a small Brand Blue wristband. Grey keeps her distinct from Pim's rust and Otto's brown.</p>
+  </div>
+  <div class="mascot">
+    <h3>Otto — the otter</h3>
+    <div class="role">Helper · all products (Hero of AnyCal+)</div>
+    <div class="fur"><i style="background:#8C5A3C"></i><i style="background:#F3E3C9"></i><i style="background:#1B2332"></i><i style="background:#0B6FCC"></i></div>
+    <p>Warm brown fur, cream muzzle and belly, round ears, long tail. Organized and upbeat: always holding, carrying or arranging something. Wears a small Brand Blue lanyard or wristband.</p>
+  </div>
+  <div class="mascot">
+    <h3>Pim — the red panda</h3>
+    <div class="role">Helper · all products (Hero of AnyKanban+)</div>
+    <div class="fur"><i style="background:#C9552B"></i><i style="background:#F3E3C9"></i><i style="background:#3A2A22"></i><i style="background:#F2A33A"></i></div>
+    <p>Rust fur, cream face markings, dark limbs, ringed tail. Curious and enthusiastic; the one who points, cheers and asks questions. Amber accents on the ear tips.</p>
+  </div>
+  <div class="mascot">
+    <h3>Penny — the penguin</h3>
+    <div class="role">Helper · all products (Hero of AnyGantt+)</div>
+    <div class="fur"><i style="background:#1B2332"></i><i style="background:#FFFFFF; border-color:#E2E6EC"></i><i style="background:#F2A33A"></i><i style="background:#2E9BF0"></i></div>
+    <p>Ink body, white front, amber beak and feet. Calm and precise; the planner who checks the schedule. Often shown with a clipboard or at a laptop.</p>
+  </div>
+</div>
+
+<h2 id="style">5. Illustration style</h2>
+<ul>
+  <li><b>Soft flat illustration, no outlines.</b> Rounded shapes that meet edge to edge; separation comes from color contrast. Gentle tonal shading on fur and props is fine, hard black outlines are not.</li>
+  <li><b>Light from top-left.</b> One shadow tone per color plus a soft ground shadow under each character; no gradients on characters or props (the gradient belongs to the icon tile only).</li>
+  <li><b>Crop-safe.</b> Plain uniform background <code>#F8FAFD</code> with no gradient or vignette, and nothing touching the image edges. Image models output fixed ratios, so we extend the canvas to the final size afterwards; a clean background makes that invisible.</li>
+  <li><b>Environment:</b> a bright modern workspace built from Paper and Mist, with Brand Blue furniture accents. Hierarchy motifs everywhere: a wall-mounted tree diagram of rounded nodes and connector lines, a root at the top branching down, sticky notes. Plants allowed. Never a literal tree with leaves.</li>
+  <li><b>Composition:</b> plenty of negative space, characters grouped around the icon tile as the focal object. Keep edges clean so images crop well.</li>
+  <li><b>No text</b> inside images. No photographic textures, no 3D rendering, no glow effects.</li>
+</ul>
+
+<h2 id="legal">6. Do and don't</h2>
+<div class="rules">
+  <div class="rule no">
+    <h3>Don't</h3>
+    <ul>
+      <li>Use or imitate any Salesforce character (Astro, Codey, Cloudy, Appy, Einstein, Blaze, Ruth, Hootie, Brandy, Zig, Max, Koa and others), their names, species-plus-style combinations, or poses.</li>
+      <li>Use Trailhead props or settings: campfires, ranger hats, badges, trail signs, mountain-and-sky backdrops.</li>
+      <li>Use the Salesforce logo, cloud shape, or Salesforce blue (<code>#00A1E0</code>, <code>#0176D3</code>) anywhere.</li>
+      <li>Use raccoons, bears, goats, wolves, elephants, owls, foxes, zebras, moose or dogs as characters.</li>
+    </ul>
+  </div>
+  <div class="rule yes">
+    <h3>Do</h3>
+    <ul>
+      <li>Use our three characters only, drawn to this brief.</li>
+      <li>Use our palette only; sample the hex values, don't eyeball them.</li>
+      <li>Place <code>icon.svg</code> in scenes as-is.</li>
+      <li>Deliver layered vector masters (SVG or AI/Figma) plus PNG exports at the sizes below.</li>
+    </ul>
+  </div>
+</div>
+
+<h2 id="assets">7. Asset list</h2>
+<p>AppExchange sizes come from the Salesforce packaging guide and should be confirmed in the Partner Console before final export. PNG unless noted; transparent background where the use is "logo".</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>#</th><th>Asset</th><th>Size</th><th>Use</th><th>Source</th></tr></thead>
+  <tbody>
+    <tr><td class="num">1</td><td>Small logo</td><td class="num">60 × 60, ≤100 KB</td><td>AppExchange listing</td><td>icon.svg</td></tr>
+    <tr><td class="num">2</td><td>Tile logo</td><td class="num">280 × 205, ≤300 KB</td><td>AppExchange listing tile</td><td>icon + wordmark, centered</td></tr>
+    <tr><td class="num">3</td><td>High-res logo</td><td class="num">2048 × 2048, transparent</td><td>AppExchange marketing</td><td>icon.svg</td></tr>
+    <tr><td class="num">4</td><td>Listing banner</td><td class="num">1200 × 300</td><td>AppExchange listing header</td><td>Scene A</td></tr>
+    <tr><td class="num">5</td><td>Screenshots ×6</td><td class="num">1920 × 1080</td><td>AppExchange gallery</td><td>Product captures, framed</td></tr>
+    <tr><td class="num">6</td><td>Favicon set</td><td class="num">SVG + 32, 180, 512</td><td>Support site</td><td>icon.svg (done)</td></tr>
+    <tr><td class="num">7</td><td>Social / OG image</td><td class="num">1200 × 630</td><td>Link previews</td><td>Scene C</td></tr>
+    <tr><td class="num">8</td><td>Site hero</td><td class="num">1600 × 900</td><td>Support site header</td><td>Scene B</td></tr>
+    <tr><td class="num">9</td><td>Empty-state spot</td><td class="num">800 × 600</td><td>In-app "no parents or children" state</td><td>Scene D</td></tr>
+    <tr><td class="num">10</td><td>Limit-reached spot</td><td class="num">800 × 600</td><td>In-app configuration limit screen, Editions section</td><td>Scene E</td></tr>
+    <tr><td class="num">11</td><td>Character sheet</td><td class="num">3000 × 2000</td><td>Brand kit, future products</td><td>Front, ¾, side; 3 expressions; 3 poses each</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h2 id="scenes">8. Scenes</h2>
+<h3>Scene A — Listing banner (4:1)</h3>
+<p>Sage carries the AnyRecordHierarchy+ icon tile toward a large wall-mounted tree diagram on the right: one node at the top, connectors down to three, each with two more below. Pim cheers; Penny ticks a box on her clipboard. Wide composition, characters in the right two-thirds, calm negative space on the left for listing text overlay.</p>
+<h3>Scene B — Site hero (16:9)</h3>
+<p>The trio and Sage assemble a tree diagram on a big whiteboard. Sage, perched on top, fits the icon tile in as the root node; Otto hangs a child node from a connector; Pim steadies a short ladder; Penny checks the plan. Plant, marker cup.</p>
+<h3>Scene C — Social image (1.9:1)</h3>
+<p>Sage alone, presenting the icon tile with an open paw, tail curled up behind, half-turned to the viewer, bright smile. Simple Paper background with a faint tree-diagram pattern. Room on the right for a headline.</p>
+<h3>Scene D — Empty state (4:3)</h3>
+<p>Sage sitting on the floor looking at a whiteboard with a single lonely node and no connectors, relaxed, an acorn beside her. Light, friendly: "no parents or children yet."</p>
+<h3>Scene E — Limit reached (4:3)</h3>
+<p>Two tree diagrams side by side. The left one already has the tile as its root; Sage holds a second tile in front of the right one, which has a small amber padlock on its root slot. Otto gives a thumbs up. Upbeat: "easy, we can unlock that."</p>
+
+<h2 id="prompts">9. Prompts for image models</h2>
+<p>Same workflow as AnyCal+: attach the AnyCal+ <code>banner-master.png</code> (style reference) and this project's <code>png/icon-1024.png</code> (the exact tile) to the chat, paste the base prompt, the characters prompt and one scene prompt together, and generate in landscape. Don't ask the model for an exact pixel size; keep the background uniform and the edges clear, and we extend the canvas to the final ratio afterwards.</p>
+
+<div class="prompt">
+  <div class="prompt-head"><h3>Base style prompt</h3><button class="copy" type="button" data-copy="p-base">Copy</button></div>
+  <pre id="p-base">Soft flat illustration, no outlines, clean rounded shapes, gentle tonal shading with light from the top left, matching the attached reference banner. Plain uniform background #F8FAFD with no gradient or vignette; nothing touches the image edges. Limited palette: brand blue #0B6FCC, sky blue #2E9BF0, amber #F2A33A, ink #1B2332, slate #5A6577, mist #F0F3F7, paper #FAFBFC. Bright modern workspace with hierarchy motifs (a wall-mounted tree diagram of rounded nodes joined by connector lines, one root at the top branching down, sticky notes, a plant). Friendly cartoon animal characters with large round heads (about 40% of height), small rounded bodies, simple dot eyes with one highlight, small mouths. No text, no gradients on characters, no 3D, no glow, no photographic texture, white or paper background.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Characters</h3><button class="copy" type="button" data-copy="p-chars">Copy</button></div>
+  <pre id="p-chars">Characters: Sage, a quick thoughtful squirrel with grey fur #8E99A8, cream belly and cheeks #F3E3C9, a big fluffy tail with a darker tip, small tufted ears with amber #F2A33A tips, wearing a small blue #0B6FCC wristband. Otto, a cheerful otter with warm brown fur #8C5A3C, cream muzzle and belly #F3E3C9, round ears, long tail, wearing a small blue #0B6FCC lanyard. Pim, an enthusiastic red panda with rust fur #C9552B, cream face markings #F3E3C9, dark limbs #3A2A22, ringed tail, amber #F2A33A ear tips. Penny, a calm penguin with ink body #1B2332, white front, amber #F2A33A beak and feet, holding a clipboard. The app icon is a rounded square tile with a blue gradient (#0B6FCC to #2E9BF0) and a white glyph of a small org chart: one rounded node at the top joined by thin lines to three nodes below; the tile is a flat solid object the characters can carry.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Scene A — Listing banner</h3><button class="copy" type="button" data-copy="p-a">Copy</button></div>
+  <pre id="p-a">Wide 4:1 banner. Sage the squirrel carries the app icon tile with both paws like a prized package, walking toward a large wall-mounted tree diagram on the right: one node at the top connected down to three nodes, each with two smaller nodes below. Pim the red panda cheers with both arms raised. Penny the penguin ticks a box on her clipboard. Characters occupy the right two-thirds; the left third is calm empty paper background for text overlay.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Scene B — Site hero</h3><button class="copy" type="button" data-copy="p-b">Copy</button></div>
+  <pre id="p-b">16:9 scene. The characters assemble a tree diagram on a big wall-mounted whiteboard. Sage the squirrel is perched on top of the board fitting the app icon tile in as the root node. Otto the otter hangs a child node onto a connector line. Pim the red panda steadies a short ladder. Penny the penguin checks a planner. A cup of markers, a plant on the floor, plenty of negative space above.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Scene C — Social image</h3><button class="copy" type="button" data-copy="p-c">Copy</button></div>
+  <pre id="p-c">1.9:1 composition. Sage the squirrel alone on the left, half-turned to the viewer, presenting the app icon tile on an open paw with a bright smile, fluffy tail curled up behind. Paper background with a faint light-grey tree-diagram pattern. The right half is empty for a headline.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Scene D — Empty state</h3><button class="copy" type="button" data-copy="p-d">Copy</button></div>
+  <pre id="p-d">4:3 spot illustration. Sage the squirrel sits on the floor looking at a whiteboard with a single rounded node drawn on it and no connector lines, relaxed and content, an acorn beside her. Minimal background, mostly paper white. Mood: no parents or children yet, calm and friendly.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Scene E — Limit reached</h3><button class="copy" type="button" data-copy="p-e">Copy</button></div>
+  <pre id="p-e">4:3 spot illustration. Two wall-mounted tree diagrams side by side. The left one already has the app icon tile fitted as its root node. Sage the squirrel stands in front of the right one holding a second app icon tile, looking up at it hopefully; the right diagram has a small amber #F2A33A padlock hanging on its empty root slot. Otto the otter beside Sage gives a cheerful thumbs up, as if to say "easy, we can unlock that". Mood: upbeat and encouraging, not a refusal. Minimal background, mostly paper white, a plant on the floor.</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Fix the tile glyph (edit an existing image)</h3><button class="copy" type="button" data-copy="p-fix">Copy</button></div>
+  <pre id="p-fix">Edit this image. Keep everything exactly as it is: the characters, poses, expressions, colors, background and composition. Only change the app icon tile so its glyph matches the attached icon image exactly: one white rounded node at the top, a thin white line down to a horizontal white rail, and three white rounded nodes hanging below it in a row, like a small org chart. No plus sign, no other marks. The tile keeps its rounded corners and blue gradient (#0B6FCC to #2E9BF0).</pre>
+</div>
+<div class="prompt">
+  <div class="prompt-head"><h3>Negative prompt</h3><button class="copy" type="button" data-copy="p-neg">Copy</button></div>
+  <pre id="p-neg">outlines, line art, text, letters, logos, watermark, gradients on characters, 3D render, photorealistic, glossy, glow, neon, campfire, ranger hat, badges, mountains, raccoon, bear, goat, fox, owl, wolf, elephant, zebra, moose, dog, Salesforce, calendar, kanban columns, plus sign, real tree with leaves</pre>
+</div>
+
+<h2 id="delivery">10. Delivery</h2>
+<ul>
+  <li>Vector masters: SVG (preferred) or Figma/AI, layered, text outlined, named <code>anyhier-{asset}-{w}x{h}.svg</code>.</li>
+  <li>PNG exports at the sizes in section 7, named <code>anyhier-{asset}-{w}x{h}.png</code>, sRGB, transparent where noted.</li>
+  <li>Character sheet as one file plus each character isolated on transparent background.</li>
+  <li>Source files for icon and lockups already exist in this folder: <code>icon.svg</code>, <code>logo-horizontal.svg</code>, <code>logo-stacked.svg</code>.</li>
+</ul>
+
+</div>
+<script>
+document.querySelectorAll('button.copy').forEach(function (btn) {
+  btn.addEventListener('click', function () {
+    var el = document.getElementById(btn.dataset.copy);
+    var text = el.textContent;
+    function done() { btn.textContent = 'Copied'; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); }
+    function fallback() {
+      var r = document.createRange(); r.selectNodeContents(el);
+      var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(fallback);
+    } else { fallback(); }
+  });
+});
+</script>
+</body>
+</html>

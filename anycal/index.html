@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnyCal+</title>
+<meta name="description" content="A flexible calendar component for Salesforce Lightning. Show related records on any object as calendar events.">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/png/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/png/icon-180.png">
+<meta property="og:title" content="AnyCal+">
+<meta property="og:description" content="Calendars for every object in Salesforce. Show related records as calendar events on any record page.">
+<meta property="og:image" content="https://solutionanything.co.uk/anycal/brand/og-1200x630.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://solutionanything.co.uk/anycal/">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root {
+  --bg: #FAFBFC;
+  --fg: #1B2332;
+  --fg-muted: #5A6577;
+  --accent: #0B6FCC;
+  --accent-hover: #0958A5;
+  --amber: #F2A33A;
+  --surface: #FFFFFF;
+  --surface-border: #E2E6EC;
+  --surface-raised: #F0F3F7;
+  --paper: #F8FAFD;
+  --gradient-start: #0B6FCC;
+  --gradient-end: #2E9BF0;
+  --shadow: 0 1px 2px rgba(27,35,50,.05), 0 12px 32px -8px rgba(27,35,50,.14);
+  --shadow-lg: 0 2px 4px rgba(27,35,50,.06), 0 32px 64px -16px rgba(27,35,50,.24);
+  --font: 'DM Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+    --accent: #4EACF7; --accent-hover: #6DBEF9;
+    --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935; --paper: #1A1F28;
+    --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+    --shadow-lg: 0 2px 4px rgba(0,0,0,.4), 0 32px 64px -16px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+  --accent: #4EACF7; --accent-hover: #6DBEF9;
+  --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935; --paper: #1A1F28;
+  --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+  --shadow-lg: 0 2px 4px rgba(0,0,0,.4), 0 32px 64px -16px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.section { padding: 88px 0; }
+.section h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 700; margin-bottom: 14px; }
+.section .lead { font-size: 1.08rem; color: var(--fg-muted); max-width: 600px; margin-bottom: 44px; }
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--font);
+  text-decoration: none; padding: 12px 22px; border-radius: 10px; border: 1px solid transparent;
+  cursor: pointer; transition: background .15s, transform .1s, border-color .15s;
+}
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--surface-border); }
+.btn-secondary:hover { background: var(--surface-raised); }
+
+/* Nav */
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--surface-border);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; list-style: none; padding: 0; }
+.nav-links a { font-size: .92rem; font-weight: 500; color: var(--fg-muted); text-decoration: none; }
+.nav-links a:hover { color: var(--fg); }
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+/* Hero */
+.hero { padding: 72px 0 0; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+@media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-actions { justify-content: center; } }
+.hero h1 { font-size: clamp(2.5rem, 5.2vw, 3.8rem); font-weight: 700; margin-bottom: 18px; }
+.hero h1 span { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.15rem; color: var(--fg-muted); max-width: 520px; margin-bottom: 30px; }
+@media (max-width: 820px) { .hero p { margin-inline: auto; } }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-art img { border-radius: 20px; background: #F8FAFD; border: 1px solid var(--surface-border); }
+
+/* Product shot under hero */
+.hero-shot { margin-top: 64px; position: relative; }
+.hero-shot::before {
+  content: ''; position: absolute; inset: 40px -10% 0; z-index: -1;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 8%, transparent));
+}
+.frame {
+  background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px;
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.frame-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--surface-border); background: var(--surface-raised); }
+.frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--surface-border); display: block; }
+.frame-bar i:nth-child(1) { background: #FF5F57; } .frame-bar i:nth-child(2) { background: #FEBC2E; } .frame-bar i:nth-child(3) { background: #28C840; }
+.frame-url { margin-left: 10px; flex: 1; font-family: var(--mono); font-size: 11px; color: var(--fg-muted); background: var(--surface); border: 1px solid var(--surface-border); border-radius: 6px; padding: 3px 10px; max-width: 420px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Features */
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+.feature { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px; padding: 26px 24px; }
+.feature-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+.feature h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.feature p { font-size: .92rem; color: var(--fg-muted); line-height: 1.55; }
+
+/* Gallery */
+.gallery { background: var(--surface-raised); border-top: 1px solid var(--surface-border); border-bottom: 1px solid var(--surface-border); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 22px; }
+.tab {
+  font: 500 14px var(--font); color: var(--fg-muted); background: transparent; border: 1px solid transparent;
+  border-radius: 999px; padding: 8px 16px; cursor: pointer; transition: all .15s;
+}
+.tab:hover { color: var(--fg); background: var(--surface); }
+.tab[aria-selected="true"] { color: var(--accent); background: var(--surface); border-color: var(--surface-border); box-shadow: 0 1px 2px rgba(27,35,50,.06); }
+.stage { position: relative; cursor: zoom-in; }
+.stage .frame { aspect-ratio: 1800 / 900; }
+.stage .frame-body { position: relative; height: calc(100% - 37px); background: var(--paper); }
+.stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: top center; opacity: 0; transition: opacity .25s; }
+.stage img.active { opacity: 1; }
+.stage-caption { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-top: 16px; flex-wrap: wrap; }
+.stage-caption strong { font-size: 1.05rem; }
+.stage-caption p { color: var(--fg-muted); font-size: .95rem; max-width: 640px; }
+.stage-caption .hint { font-family: var(--mono); font-size: 11px; color: var(--fg-muted); white-space: nowrap; }
+.thumbs { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 22px; }
+@media (max-width: 720px) { .thumbs { grid-template-columns: repeat(4, 1fr); } }
+.thumb { padding: 0; border: 2px solid transparent; border-radius: 10px; overflow: hidden; background: var(--surface); cursor: pointer; aspect-ratio: 16/9; transition: border-color .15s, transform .15s; }
+.thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.thumb:hover { transform: translateY(-2px); }
+.thumb[aria-selected="true"] { border-color: var(--accent); }
+
+/* Lightbox */
+.lightbox { position: fixed; inset: 0; z-index: 100; background: rgba(10,14,20,.92); display: none; align-items: center; justify-content: center; padding: 24px; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: min(96vw, 1600px); max-height: 86vh; border-radius: 10px; box-shadow: 0 24px 80px rgba(0,0,0,.6); }
+.lightbox figcaption { position: absolute; bottom: 20px; left: 0; right: 0; text-align: center; color: #cfd6e0; font-size: .92rem; }
+.lb-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; border-radius: 50%; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.08); color: #fff; font-size: 22px; cursor: pointer; display: grid; place-items: center; }
+.lb-btn:hover { background: rgba(255,255,255,.18); }
+.lb-prev { left: 20px; } .lb-next { right: 20px; }
+.lb-close { position: absolute; top: 18px; right: 20px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.1); color: #fff; font-size: 20px; cursor: pointer; }
+@media (max-width: 720px) { .lb-btn { width: 40px; height: 40px; top: auto; bottom: 56px; transform: none; } }
+
+/* Steps */
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+.step { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px; padding: 26px 24px; transition: border-color .15s, transform .15s; }
+.step:hover { border-color: var(--accent); transform: translateY(-2px); }
+.step h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 6px; }
+.step p { font-size: .9rem; color: var(--fg-muted); }
+
+/* Banner band */
+.band { padding: 0 0 88px; }
+.band img { width: 100%; border-radius: 20px; border: 1px solid var(--surface-border); box-shadow: var(--shadow); background: #F8FAFD; }
+
+/* Editions */
+.editions { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+.edition { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; position: relative; }
+.edition.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+.edition-tag { position: absolute; top: -12px; left: 24px; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 12px; border-radius: 6px; }
+.edition h3 { font-size: 1.35rem; font-weight: 700; }
+.price { color: var(--fg-muted); margin: 4px 0 20px; }
+.edition ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.edition li { font-size: .92rem; display: flex; gap: 10px; }
+.edition li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+.edition .btn { margin-top: 24px; justify-content: center; }
+
+/* Contact */
+.contact { padding: 0 0 96px; }
+.contact-box { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 20px; padding: 48px 32px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: start; }
+@media (max-width: 820px) { .contact-box { grid-template-columns: 1fr; padding: 32px 22px; } }
+.contact-box h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 12px; }
+.contact-box > div > p { color: var(--fg-muted); margin-bottom: 20px; }
+.contact-art { width: 120px; height: 120px; border-radius: 28px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.form { display: flex; flex-direction: column; gap: 18px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: .88rem; font-weight: 500; }
+.field .req { color: var(--accent); }
+.field input, .field select, .field textarea { font: 15px var(--font); padding: 10px 12px; border: 1px solid var(--surface-border); border-radius: 8px; background: var(--bg); color: var(--fg); outline: none; transition: border-color .15s; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+.field textarea { resize: vertical; min-height: 120px; }
+.helper { font-size: .78rem; color: var(--fg-muted); }
+.success { text-align: center; padding: 40px 20px; }
+.success h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+.success p { color: var(--fg-muted); }
+
+/* Footer */
+footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+footer p { font-size: .85rem; color: var(--fg-muted); }
+footer ul { display: flex; gap: 20px; list-style: none; padding: 0; }
+footer a { font-size: .85rem; color: var(--fg-muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+@media (max-width: 600px) { .section { padding: 56px 0; } .hero { padding-top: 44px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="brand/png/icon-180.png" alt="" width="32" height="32">AnyCal<span>+</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#gallery">Screenshots</a></li>
+      <li><a href="setup.html">Setup guide</a></li>
+      <li><a href="#pricing">Editions</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Calendars for <span>every object</span></h1>
+        <p>AnyCal+ turns related records into calendar events on any Salesforce record page. Point it at an object, map a few fields, and your team has a calendar. No code needed.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install from AppExchange</a>
+          <a class="btn btn-secondary" href="#gallery">See it in action</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="brand/hero-1600x900.png" width="1600" height="900" alt="Otto the otter fits the AnyCal+ icon into a wall calendar while Pim the red panda holds the ladder and Penny the penguin checks a planner" fetchpriority="high">
+      </div>
+    </div>
+
+    <div class="hero-shot">
+      <div class="frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url">yourorg.lightning.force.com/lightning/r/TimeSheet/view</span></div>
+        <img src="screenshots/month-view.png" width="1800" height="784" alt="AnyCal+ month view embedded on a Salesforce Time Sheet record page, showing a month of time sheet entries beside the standard Activity panel">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="eyebrow">Features</div>
+    <h2>Everything you need in a record calendar</h2>
+    <p class="lead">A native Lightning Web Component with no iframes, no external services and no data leaving your org.</p>
+    <div class="features-grid">
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg></div><h3>Month, Week, Day &amp; Agenda</h3><p>Four views out of the box. Switch instantly with keyboard-accessible tabs.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><h3>Any object, any relationship</h3><p>Standard or custom objects. Map any lookup, date and display field from a point-and-click modal.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 01-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 01-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 012.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 012.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></div><h3>Admin-friendly setup</h3><p>Configure child objects, field mappings, colours and labels from a guided modal. Stored as custom metadata.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><h3>Permission-aware</h3><p>Respects object and field-level security. Only users with the AnyCal+ Admin permission set can configure calendars.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Inline record actions</h3><p>Click an event to view, open or edit it without leaving the page. Create new records from any date.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20"/></svg></div><h3>Locale-aware</h3><p>Follows each user's Salesforce locale for date formats and week start. Fully translatable with custom labels.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section gallery" id="gallery">
+  <div class="wrap">
+    <div class="eyebrow">Screenshots</div>
+    <h2>A calendar that fits right into Salesforce</h2>
+    <p class="lead">Every view and every modal, captured on a real Time Sheet record. Click any screen to enlarge it.</p>
+
+    <div class="tabs" role="tablist" id="tabs"></div>
+
+    <figure class="stage" id="stage" title="Click to enlarge">
+      <div class="frame">
+        <div class="frame-bar"><i></i><i></i><i></i><span class="frame-url" id="stageUrl"></span></div>
+        <div class="frame-body" id="stageBody"></div>
+      </div>
+      <figcaption class="stage-caption">
+        <div><strong id="stageTitle"></strong><p id="stageDesc"></p></div>
+      </figcaption>
+    </figure>
+
+    <div class="thumbs" id="thumbs"></div>
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Screenshot viewer">
+  <button class="lb-close" id="lbClose" aria-label="Close">✕</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Previous">‹</button>
+  <figure>
+    <img id="lbImg" src="" alt="">
+    <figcaption id="lbCap"></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Next">›</button>
+</div>
+
+<section class="section" id="setup">
+  <div class="wrap">
+    <div class="eyebrow">Setup</div>
+    <h2>Up and running in minutes</h2>
+    <p class="lead">Three steps from install to a working calendar on any record page. The <a href="setup.html">setup guide</a> walks through each one in detail.</p>
+    <div class="steps">
+      <a class="step" href="setup.html#install"><h3>1. Install the package</h3><p>Install AnyCal+ from the AppExchange and assign the AnyCal+ Admin permission set to your calendar administrators.</p></a>
+      <a class="step" href="setup.html#add"><h3>2. Add the component</h3><p>Open any record page in Lightning App Builder and drag AnyCal+ onto the layout.</p></a>
+      <a class="step" href="setup.html#configure"><h3>3. Configure and go</h3><p>Click Configure Calendar, map child objects, date fields and display names. Save, and the calendar is live for everyone on that page.</p></a>
+    </div>
+    <p style="margin-top:28px"><a class="btn btn-secondary" href="setup.html">Read the full setup guide</a></p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <img src="brand/banner-appexchange-1200x300.png" width="1200" height="300" alt="AnyCal+, Calendars for every object. Otto, Pim and Penny carry the AnyCal+ icon toward a wall calendar" loading="lazy">
+  </div>
+</section>
+
+<section class="section" id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Editions</div>
+    <h2>Start free, upgrade when you need more</h2>
+    <p class="lead">Free covers one calendar configuration per org. Pro unlocks unlimited configurations for teams that need calendars across many objects. Need help designing or building your calendars? Consulting is available separately, just ask.</p>
+    <div class="editions">
+      <div class="edition">
+        <h3>Free</h3><p class="price">$0 / org / forever</p>
+        <ul><li>One calendar configuration per org</li><li>All four views</li><li>Inline record create, view and edit</li><li>Full locale and permission support</li><li>Community support</li></ul>
+        <a class="btn btn-secondary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install Free</a>
+      </div>
+      <div class="edition featured">
+        <div class="edition-tag">Recommended</div>
+        <h3>Pro</h3><p class="price">$490 / org / year</p>
+        <ul><li>Unlimited calendar configurations</li><li>Everything in Free</li><li>Priority support</li></ul>
+        <a class="btn btn-primary" href="#contact">Upgrade to Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <div>
+        <img class="contact-art" src="brand/png/icon-512.png" alt="" width="120" height="120">
+        <h2>Get in touch</h2>
+        <p>Need more calendar configurations, have a question, or want to request a feature? Send a message and we'll reply within one business day.</p>
+      </div>
+      <div>
+        <form id="contactForm" class="form" novalidate>
+          <div class="row">
+            <div class="field"><label for="cf-name">Name <span class="req">*</span></label><input type="text" id="cf-name" name="entry.531518552" required></div>
+            <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input type="email" id="cf-email" name="entry.103360093" required></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="cf-company">Company / Org Name <span class="req">*</span></label><input type="text" id="cf-company" name="entry.564826811" required></div>
+            <div class="field"><label for="cf-type">Request Type <span class="req">*</span></label>
+              <select id="cf-type" name="entry.612991989" required>
+                <option value="" disabled selected>Select</option>
+                <option>Upgrade to Pro (limit increase)</option>
+                <option>Consulting Services</option>
+                <option>General Question</option>
+                <option>Bug Report</option>
+                <option>Feature Request</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="cf-orgid">Salesforce Org ID</label><input type="text" id="cf-orgid" name="entry.1915657442" placeholder="00D"><span class="helper">Found under Setup, Company Information</span></div>
+          <div class="field"><label for="cf-message">Message <span class="req">*</span></label><textarea id="cf-message" name="entry.1088586860" required></textarea></div>
+          <div><button type="submit" class="btn btn-primary" id="cf-submit">Send Message</button></div>
+        </form>
+        <div id="formSuccess" class="success" hidden><h3>Message sent</h3><p>Thanks for reaching out. We'll get back to you within one business day.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 AnyCal+. All rights reserved.</p>
+    <ul><li><a href="#features">Features</a></li><li><a href="#gallery">Screenshots</a></li><li><a href="setup.html">Setup guide</a></li><li><a href="#pricing">Editions</a></li><li><a href="#contact">Contact</a></li></ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var shots = [
+    { src: 'screenshots/month-view.png',          title: 'Month view',         url: '/lightning/r/TimeSheet/view', desc: 'A full month of entries on the record page, with the standard Activity panel alongside. Today is highlighted; overflow days scroll.' },
+    { src: 'screenshots/week-view.png',           title: 'Week view',          url: '/lightning/r/TimeSheet/view', desc: 'Seven-day time grid. Events are sized by duration and keep their titles readable even when stacked.' },
+    { src: 'screenshots/day-view.png',            title: 'Day view',           url: '/lightning/r/TimeSheet/view', desc: 'One day, hour by hour. Ideal for service resources and anyone working a packed schedule.' },
+    { src: 'screenshots/agenda-view.png',         title: 'Agenda view',        url: '/lightning/r/TimeSheet/view', desc: 'A clean list grouped by day with times and object names. The fastest way to scan what is coming up.' },
+    { src: 'screenshots/event-detail.png',        title: 'Event details',      url: '/lightning/r/TimeSheet/view', desc: 'Click any event for its fields in a modal, then open the record or edit it in place.' },
+    { src: 'screenshots/new-record-selector.png', title: 'Record type picker', url: '/lightning/r/TimeSheet/view', desc: 'When a calendar shows more than one object, + New asks which kind of record to create.' },
+    { src: 'screenshots/new-record-form.png',     title: 'Create a record',    url: '/lightning/r/TimeSheet/view', desc: 'A native create form, pre-linked to the parent record, with dates and times filled from the slot you clicked.' }
+  ];
+  var current = 0;
+  var tabs = document.getElementById('tabs'), thumbs = document.getElementById('thumbs'), body = document.getElementById('stageBody');
+  shots.forEach(function (s, i) {
+    var t = document.createElement('button'); t.className = 'tab'; t.role = 'tab'; t.textContent = s.title; t.onclick = function () { show(i); }; tabs.appendChild(t);
+    var th = document.createElement('button'); th.className = 'thumb'; th.setAttribute('aria-label', s.title);
+    th.innerHTML = '<img src="' + s.src + '" alt="" loading="lazy">'; th.onclick = function () { show(i); }; thumbs.appendChild(th);
+    var img = document.createElement('img'); img.src = s.src; img.alt = s.title; img.loading = i ? 'lazy' : 'eager'; body.appendChild(img);
+  });
+  function show(i) {
+    current = (i + shots.length) % shots.length;
+    var s = shots[current];
+    [].forEach.call(tabs.children, function (t, j) { t.setAttribute('aria-selected', j === current); });
+    [].forEach.call(thumbs.children, function (t, j) { t.setAttribute('aria-selected', j === current); });
+    [].forEach.call(body.children, function (img, j) { img.classList.toggle('active', j === current); });
+    document.getElementById('stageTitle').textContent = s.title;
+    document.getElementById('stageDesc').textContent = s.desc;
+    document.getElementById('stageUrl').textContent = 'yourorg.lightning.force.com' + s.url;
+  }
+  show(0);
+
+  var lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg'), lbCap = document.getElementById('lbCap');
+  function openLb() { lbImg.src = shots[current].src; lbImg.alt = shots[current].title; lbCap.textContent = shots[current].title + '. ' + shots[current].desc; lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+  function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  function step(d) { show(current + d); if (lb.classList.contains('open')) openLb(); }
+  document.getElementById('stage').onclick = openLb;
+  document.getElementById('lbClose').onclick = closeLb;
+  document.getElementById('lbPrev').onclick = function (e) { e.stopPropagation(); step(-1); };
+  document.getElementById('lbNext').onclick = function (e) { e.stopPropagation(); step(1); };
+  lb.onclick = function (e) { if (e.target === lb) closeLb(); };
+  document.addEventListener('keydown', function (e) {
+    var inGallery = lb.classList.contains('open') || (document.activeElement && document.getElementById('gallery').contains(document.activeElement));
+    if (e.key === 'Escape') closeLb();
+    else if (e.key === 'ArrowLeft' && inGallery) step(-1);
+    else if (e.key === 'ArrowRight' && inGallery) step(1);
+  });
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = this, btn = document.getElementById('cf-submit'), email = document.getElementById('cf-email');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value)) {
+      email.setCustomValidity('Please enter a valid email address.'); form.reportValidity(); email.setCustomValidity(''); return;
+    }
+    btn.textContent = 'Sending'; btn.disabled = true;
+    var done = function () { form.hidden = true; document.getElementById('formSuccess').hidden = false; };
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSerWWOh-6B75PiFq3dk0nr5CnzYcuZz3qZv0VWHx1_lAnyi7Q/formResponse', { method: 'POST', body: new FormData(form), mode: 'no-cors' }).then(done).catch(done);
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B6FCC"/>
+      <stop offset="1" stop-color="#2E9BF0"/>
+    </linearGradient>
+  </defs>
+  <!-- Tile: shared across all products -->
+  <rect width="512" height="512" rx="112" fill="url(#tile)"/>
+  <!-- Glyph: calendar + plus -->
+  <rect x="168" y="100" width="28" height="72" rx="14" fill="#FFFFFF"/>
+  <rect x="316" y="100" width="28" height="72" rx="14" fill="#FFFFFF"/>
+  <rect x="104" y="136" width="304" height="276" rx="40" fill="#FFFFFF"/>
+  <rect x="104" y="196" width="304" height="18" fill="url(#tile)"/>
+  <rect x="236" y="246" width="40" height="128" rx="12" fill="url(#tile)"/>
+  <rect x="192" y="290" width="128" height="40" rx="12" fill="url(#tile)"/>
+</svg>

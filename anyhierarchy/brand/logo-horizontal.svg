@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 160" width="1000" height="160">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B6FCC"/>
+      <stop offset="1" stop-color="#2E9BF0"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(16 16) scale(0.25)">
+    <rect width="512" height="512" rx="112" fill="url(#tile)"/>
+  <rect x="208" y="104" width="96" height="76" rx="22" fill="#FFFFFF"/>
+  <rect x="245" y="180" width="22" height="56" fill="#FFFFFF"/>
+  <rect x="137" y="226" width="238" height="22" rx="11" fill="#FFFFFF"/>
+  <rect x="137" y="226" width="22" height="66" fill="#FFFFFF"/>
+  <rect x="245" y="226" width="22" height="66" fill="#FFFFFF"/>
+  <rect x="353" y="226" width="22" height="66" fill="#FFFFFF"/>
+  <rect x="100" y="292" width="96" height="76" rx="22" fill="#FFFFFF"/>
+  <rect x="208" y="292" width="96" height="76" rx="22" fill="#FFFFFF"/>
+  <rect x="316" y="292" width="96" height="76" rx="22" fill="#FFFFFF"/>
+  </g>
+  <!-- Wordmark: designer should convert to outlines (DM Sans Bold) -->
+  <text x="168" y="106" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="80" letter-spacing="-2" fill="#1B2332">AnyRecordHierarchy<tspan fill="#0B6FCC">+</tspan></text>
+</svg>

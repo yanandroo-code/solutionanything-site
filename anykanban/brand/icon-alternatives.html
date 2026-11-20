@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AnyKanban+ Icon Alternatives</title>
+<style>
+:root { --bg:#FAFBFC; --fg:#1B2332; --muted:#5A6577; --border:#E2E6EC; --surface:#fff; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg:#0F1318; --fg:#E4E8EE; --muted:#8B95A5; --border:#2A3140; --surface:#1A1F28; color-scheme:dark; }
+}
+body { background:var(--bg); color:var(--fg); font-family:'DM Sans',system-ui,sans-serif; margin:0; padding:40px 16px 80px; }
+.wrap { max-width:1200px; margin:0 auto; }
+h1 { letter-spacing:-0.02em; }
+p.note { color:var(--muted); max-width:70ch; }
+.grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:20px; margin-top:24px; }
+.card { background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; }
+.card h2 { font-size:1.05rem; margin:0 0 4px; }
+.card p { font-size:0.85rem; color:var(--muted); margin:0 0 14px; }
+.big { display:block; width:160px; height:160px; margin-bottom:14px; }
+.row { display:flex; align-items:flex-end; gap:14px; }
+.row figure { margin:0; text-align:center; }
+.row figcaption { font-size:10px; color:var(--muted); font-family:ui-monospace,monospace; margin-top:4px; }
+.section { margin-top:40px; padding-top:24px; border-top:1px solid var(--border); }
+.section h2 { font-size:1.3rem; margin:0 0 6px; }
+.section > p { color:var(--muted); max-width:70ch; margin:0 0 16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Icon glyph — round 6</h1>
+<p class="note">No plus sign. Pure Kanban board — the columns tell the story. The "+" lives in the product name, not the glyph.</p>
+<div class="card" style="max-width:220px;margin-bottom:8px">
+  <h2>AnyCal+ reference</h2>
+  <img src="../../../AnyCalPlus/anycalplus-site/brand/png/icon-1024.png" alt="AnyCal+ icon" style="width:160px;height:160px;border-radius:24px">
+</div>
+
+<div class="section"><h2>A — Solid board with dividers</h2>
+<p>White board, blue column dividers, header bar. The columns hold card-like segments.</p></div>
+<div class="grid" id="grid-a"></div>
+
+<div class="section"><h2>C — Board frame with inner columns</h2>
+<p>White outlined frame, columns inside at different heights.</p></div>
+<div class="grid" id="grid-c"></div>
+
+<div class="section"><h2>F — Free columns (no board)</h2>
+<p>Bold white columns directly on the gradient, no enclosing shape.</p></div>
+<div class="grid" id="grid-f"></div>
+
+<script>
+const tile = `<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+<stop offset="0" stop-color="#0B6FCC"/><stop offset="1" stop-color="#2E9BF0"/>
+</linearGradient></defs><rect width="512" height="512" rx="112" fill="url(#g)"/>`;
+
+const variantsA = [
+
+{ name: "A1 — 3 columns, cards inside", desc: "Board with header bar and dividers. Each lane has card-sized segments — reads as a Kanban board, not a bar chart.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="#fff"/>
+<rect x="104" y="130" width="304" height="8" rx="4" fill="#0B6FCC" opacity="0.3"/>
+<rect x="192" y="138" width="10" height="270" rx="5" fill="#0B6FCC" opacity="0.5"/>
+<rect x="310" y="138" width="10" height="270" rx="5" fill="#0B6FCC" opacity="0.5"/>
+<rect x="112" y="152" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="112" y="216" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="112" y="280" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="112" y="344" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="210" y="152" width="92" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="210" y="216" width="92" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="328" y="152" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="328" y="216" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>
+<rect x="328" y="280" width="72" height="52" rx="12" fill="#0B6FCC" opacity="0.15"/>` },
+
+{ name: "A2 — 3 columns, clean lanes", desc: "Board with header and dividers only — no cards. The emptier lanes read as columns waiting for work.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="#fff"/>
+<rect x="104" y="132" width="304" height="10" rx="5" fill="#0B6FCC" opacity="0.3"/>
+<rect x="192" y="142" width="12" height="266" rx="6" fill="#0B6FCC" opacity="0.55"/>
+<rect x="308" y="142" width="12" height="266" rx="6" fill="#0B6FCC" opacity="0.55"/>` },
+
+{ name: "A3 — 4 columns", desc: "Four narrower lanes with header. More of a board feel — projects often have 4 stages.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="#fff"/>
+<rect x="104" y="130" width="304" height="8" rx="4" fill="#0B6FCC" opacity="0.3"/>
+<rect x="162" y="138" width="8" height="270" rx="4" fill="#0B6FCC" opacity="0.5"/>
+<rect x="252" y="138" width="8" height="270" rx="4" fill="#0B6FCC" opacity="0.5"/>
+<rect x="342" y="138" width="8" height="270" rx="4" fill="#0B6FCC" opacity="0.5"/>` },
+
+];
+
+const variantsC = [
+
+{ name: "C1 — 3 columns, stepped", desc: "Three columns at different heights (tall/short/medium) inside the frame. Classic Kanban silhouette.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="none" stroke="#fff" stroke-width="24"/>
+<rect x="106" y="106" width="88" height="240" rx="22" fill="#fff"/>
+<rect x="212" y="106" width="88" height="136" rx="22" fill="#fff"/>
+<rect x="318" y="106" width="88" height="192" rx="22" fill="#fff"/>` },
+
+{ name: "C2 — 3 columns, cards", desc: "Columns built from stacked card segments inside the frame.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="none" stroke="#fff" stroke-width="24"/>
+<rect x="106" y="106" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="106" y="178" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="106" y="250" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="106" y="322" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="212" y="106" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="212" y="178" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="318" y="106" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="318" y="178" width="88" height="56" rx="16" fill="#fff"/>
+<rect x="318" y="250" width="88" height="56" rx="16" fill="#fff"/>` },
+
+{ name: "C3 — 4 columns, stepped", desc: "Four narrower columns inside the frame. More lanes = more board.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="none" stroke="#fff" stroke-width="24"/>
+<rect x="102" y="106" width="64" height="260" rx="16" fill="#fff"/>
+<rect x="180" y="106" width="64" height="148" rx="16" fill="#fff"/>
+<rect x="258" y="106" width="64" height="204" rx="16" fill="#fff"/>
+<rect x="336" y="106" width="64" height="108" rx="16" fill="#fff"/>` },
+
+{ name: "C4 — 3 columns + header", desc: "Frame with a white header bar across the top, three stepped columns below it.", body: `
+<rect x="76" y="76" width="360" height="360" rx="48" fill="none" stroke="#fff" stroke-width="24"/>
+<rect x="88" y="88" width="336" height="40" rx="12" fill="#fff"/>
+<rect x="106" y="148" width="88" height="220" rx="22" fill="#fff"/>
+<rect x="212" y="148" width="88" height="120" rx="22" fill="#fff"/>
+<rect x="318" y="148" width="88" height="172" rx="22" fill="#fff"/>` },
+
+];
+
+const variantsF = [
+
+{ name: "F1 — 3 bold columns", desc: "Three wide columns directly on gradient. Tall/short/medium. Simplest possible.", body: `
+<rect x="68"  y="80" width="112" height="340" rx="36" fill="#fff"/>
+<rect x="200" y="80" width="112" height="192" rx="36" fill="#fff"/>
+<rect x="332" y="80" width="112" height="272" rx="36" fill="#fff"/>` },
+
+{ name: "F2 — 4 columns", desc: "Four columns, varied heights. Feels more like a board in motion.", body: `
+<rect x="60"  y="80" width="92" height="340" rx="28" fill="#fff"/>
+<rect x="168" y="80" width="92" height="184" rx="28" fill="#fff"/>
+<rect x="276" y="80" width="92" height="264" rx="28" fill="#fff"/>
+<rect x="384" y="80" width="68" height="132" rx="24" fill="#fff"/>` },
+
+{ name: "F3 — 3 card-stack columns", desc: "Columns made of stacked card segments. Unmistakably Kanban.", body: `
+<rect x="68"  y="80"  width="112" height="68" rx="20" fill="#fff"/>
+<rect x="68"  y="164" width="112" height="68" rx="20" fill="#fff"/>
+<rect x="68"  y="248" width="112" height="68" rx="20" fill="#fff"/>
+<rect x="68"  y="332" width="112" height="68" rx="20" fill="#fff"/>
+<rect x="200" y="80"  width="112" height="68" rx="20" fill="#fff"/>
+<rect x="200" y="164" width="112" height="68" rx="20" fill="#fff"/>
+<rect x="332" y="80"  width="112" height="68" rx="20" fill="#fff"/>
+<rect x="332" y="164" width="112" height="68" rx="20" fill="#fff"/>
+<rect x="332" y="248" width="112" height="68" rx="20" fill="#fff"/>` },
+
+];
+
+function render(variants, containerId) {
+  const grid = document.getElementById(containerId);
+  for (const v of variants) {
+    const svg = s => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="${s}" height="${s}">${tile}${v.body}</svg>`;
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h2>${v.name}</h2><p>${v.desc}</p>
+      <span class="big">${svg(160)}</span>
+      <div class="row">
+        <figure>${svg(48)}<figcaption>48</figcaption></figure>
+        <figure>${svg(32)}<figcaption>32</figcaption></figure>
+        <figure>${svg(16)}<figcaption>16</figcaption></figure>
+      </div>`;
+    grid.appendChild(card);
+  }
+}
+
+render(variantsA, 'grid-a');
+render(variantsC, 'grid-c');
+render(variantsF, 'grid-f');
+
+document.querySelectorAll('svg').forEach((el,i)=>{
+  el.innerHTML = el.innerHTML.replaceAll('id="g"',`id="g${i}"`).replaceAll('url(#g)',`url(#g${i})`);
+});
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" width="720" height="160">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B6FCC"/>
+      <stop offset="1" stop-color="#2E9BF0"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(16 16) scale(0.25)">
+    <rect width="512" height="512" rx="112" fill="url(#tile)"/>
+    <rect x="76" y="76" width="360" height="360" rx="48" fill="none" stroke="#FFFFFF" stroke-width="24"/>
+    <rect x="106" y="106" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="106" y="178" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="106" y="250" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="106" y="322" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="212" y="106" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="212" y="178" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="318" y="106" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="318" y="178" width="88" height="56" rx="16" fill="#FFFFFF"/>
+    <rect x="318" y="250" width="88" height="56" rx="16" fill="#FFFFFF"/>
+  </g>
+  <text x="168" y="106" font-family="'DM Sans', 'Helvetica Neue', Arial, sans-serif" font-weight="700" font-size="80" letter-spacing="-2" fill="#1B2332">AnyKanban<tspan fill="#0B6FCC">+</tspan></text>
+</svg>

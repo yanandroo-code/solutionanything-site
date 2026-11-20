@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnyRecordHierarchy+</title>
+<meta name="description" content="View Hierarchy for any object. Drop it on a record page, pick the parent field, and the record's ancestors and descendants appear as an expandable tree.">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/png/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/png/icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root { --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577; --accent: #0B6FCC; --warm: #F2A33A; --border: #E2E6EC;
+  --font: 'DM Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --border: #2A3140; color-scheme: dark; } }
+:root[data-theme="dark"] { --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --border: #2A3140; color-scheme: dark; }
+* { box-sizing: border-box; margin: 0; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0; }
+.wrap { max-width: 960px; margin: 0 auto; padding-block: 80px; text-align: center; }
+.wrap img { width: 96px; height: 96px; margin-bottom: 24px; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; text-wrap: balance; margin-bottom: 16px; }
+h1 span { color: var(--accent); }
+p { color: var(--fg-muted); max-width: 52ch; margin: 0 auto 24px; }
+.badge { display: inline-block; font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--warm); border: 1px solid var(--border); border-radius: 20px; padding: 6px 16px; }
+.scenes { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; margin-top: 48px; }
+.scenes img { width: 100%; max-width: 440px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.08); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <img src="brand/icon.svg" alt="AnyRecordHierarchy+ icon">
+  <h1>AnyRecordHierarchy<span>+</span></h1>
+  <p>View Hierarchy for any object. Drop it on a record page, pick the parent field, and the record's ancestors and descendants appear as an expandable tree.</p>
+  <span class="badge">Coming soon</span>
+  <div class="scenes">
+    <img src="scenes/scene-a.png" alt="AnyRecordHierarchy+ — characters presenting a hierarchy tree on a big screen">
+    <img src="scenes/scene-b.png" alt="AnyRecordHierarchy+ — characters assembling a tree diagram on a whiteboard">
+    <img src="scenes/scene-c.png" alt="AnyRecordHierarchy+ — Sage the squirrel presenting the app icon with a hierarchy tree">
+    <img src="scenes/scene-d.png" alt="AnyRecordHierarchy+ — Sage the squirrel sitting by a whiteboard with sticky notes">
+  </div>
+</div>
+</body>
+</html>

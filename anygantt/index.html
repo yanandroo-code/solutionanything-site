@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnyGantt+</title>
+<meta name="description" content="A configurable Gantt timeline for any Salesforce Lightning record page. Pick a child object and its start and end fields, and the records appear as bars on a scrollable time axis.">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/png/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/png/icon-180.png">
+<meta property="og:title" content="AnyGantt+">
+<meta property="og:description" content="A configurable Gantt timeline for any Salesforce Lightning record page. Turn related records into bars on a scrollable time axis.">
+<meta property="og:image" content="https://solutionanything.co.uk/anygantt/brand/scene-c-social.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://solutionanything.co.uk/anygantt/">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+:root {
+  --bg: #FAFBFC;
+  --fg: #1B2332;
+  --fg-muted: #5A6577;
+  --accent: #0B6FCC;
+  --accent-hover: #0958A5;
+  --amber: #F2A33A;
+  --surface: #FFFFFF;
+  --surface-border: #E2E6EC;
+  --surface-raised: #F0F3F7;
+  --paper: #F8FAFD;
+  --gradient-start: #0B6FCC;
+  --gradient-end: #2E9BF0;
+  --shadow: 0 1px 2px rgba(27,35,50,.05), 0 12px 32px -8px rgba(27,35,50,.14);
+  --shadow-lg: 0 2px 4px rgba(27,35,50,.06), 0 32px 64px -16px rgba(27,35,50,.24);
+  --font: 'DM Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+    --accent: #4EACF7; --accent-hover: #6DBEF9;
+    --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935; --paper: #1A1F28;
+    --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+    --shadow-lg: 0 2px 4px rgba(0,0,0,.4), 0 32px 64px -16px rgba(0,0,0,.7);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5;
+  --accent: #4EACF7; --accent-hover: #6DBEF9;
+  --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935; --paper: #1A1F28;
+  --gradient-start: #2E9BF0; --gradient-end: #4EACF7;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6);
+  --shadow-lg: 0 2px 4px rgba(0,0,0,.4), 0 32px 64px -16px rgba(0,0,0,.7);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font); font-size: 16px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; height: auto; display: block; }
+.wrap {
+  max-width: 1080px; margin: 0 auto;
+  padding-left: max(20px, env(safe-area-inset-left, 0px));
+  padding-right: max(20px, env(safe-area-inset-right, 0px));
+}
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
+.eyebrow {
+  font-family: var(--mono); font-size: 12px; font-weight: 500;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
+}
+.section { padding: 88px 0; }
+.section h2 { font-size: clamp(1.7rem, 3.2vw, 2.3rem); font-weight: 700; margin-bottom: 14px; }
+.section .lead { font-size: 1.08rem; color: var(--fg-muted); max-width: 600px; margin-bottom: 44px; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--font);
+  text-decoration: none; padding: 12px 22px; border-radius: 10px; border: 1px solid transparent;
+  cursor: pointer; transition: background .15s, transform .1s, border-color .15s;
+}
+.btn:active { transform: scale(.98); }
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--surface-border); }
+.btn-secondary:hover { background: var(--surface-raised); }
+
+.nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--surface-border);
+}
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; }
+.brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; list-style: none; padding: 0; }
+.nav-links a { font-size: .92rem; font-weight: 500; color: var(--fg-muted); text-decoration: none; }
+.nav-links a:hover { color: var(--fg); }
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+.hero { padding: 72px 0 0; overflow: hidden; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 48px; align-items: center; }
+@media (max-width: 820px) { .hero-grid { grid-template-columns: 1fr; text-align: center; } .hero-actions { justify-content: center; } }
+.hero h1 { font-size: clamp(2.5rem, 5.2vw, 3.8rem); font-weight: 700; margin-bottom: 18px; }
+.hero h1 span { background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: 1.15rem; color: var(--fg-muted); max-width: 520px; margin-bottom: 30px; }
+@media (max-width: 820px) { .hero p { margin-inline: auto; } }
+.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+.hero-art img { border-radius: 20px; background: #F8FAFD; border: 1px solid var(--surface-border); }
+
+.hero-shot { margin-top: 64px; position: relative; }
+.hero-shot::before {
+  content: ''; position: absolute; inset: 40px -10% 0; z-index: -1;
+  background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--accent) 8%, transparent));
+}
+.frame {
+  background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px;
+  box-shadow: var(--shadow-lg); overflow: hidden;
+}
+.frame-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; border-bottom: 1px solid var(--surface-border); background: var(--surface-raised); }
+.frame-bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--surface-border); display: block; }
+.frame-bar i:nth-child(1) { background: #FF5F57; } .frame-bar i:nth-child(2) { background: #FEBC2E; } .frame-bar i:nth-child(3) { background: #28C840; }
+.frame-url { margin-left: 10px; flex: 1; font-family: var(--mono); font-size: 11px; color: var(--fg-muted); background: var(--surface); border: 1px solid var(--surface-border); border-radius: 6px; padding: 3px 10px; max-width: 420px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hero-shot .frame img { width: 100%; display: block; }
+
+.features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 18px; }
+.feature { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px; padding: 26px 24px; }
+.feature-icon { width: 40px; height: 40px; border-radius: 10px; background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+.feature h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.feature p { font-size: .92rem; color: var(--fg-muted); line-height: 1.55; }
+
+.gallery { background: var(--surface-raised); border-top: 1px solid var(--surface-border); border-bottom: 1px solid var(--surface-border); }
+.gallery-placeholder { text-align: center; padding: 60px 20px; border: 2px dashed var(--surface-border); border-radius: 14px; }
+.gallery-placeholder p { color: var(--fg-muted); font-size: 1rem; margin: 0; }
+
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 28px; }
+.step { display: block; text-decoration: none; color: inherit; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 14px; padding: 26px 24px; transition: border-color .15s, transform .15s; }
+.step:hover { border-color: var(--accent); transform: translateY(-2px); }
+.step h3 { font-size: 1.02rem; font-weight: 600; margin-bottom: 6px; }
+.step p { font-size: .9rem; color: var(--fg-muted); }
+
+.band { padding: 0 0 88px; }
+.band img { width: 100%; border-radius: 20px; border: 1px solid var(--surface-border); box-shadow: var(--shadow); background: #F8FAFD; }
+
+.editions { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; }
+.edition { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px; padding: 32px 28px; display: flex; flex-direction: column; position: relative; }
+.edition.featured { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent), var(--shadow); }
+.edition-tag { position: absolute; top: -12px; left: 24px; background: var(--accent); color: #fff; font-family: var(--mono); font-size: 11px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 12px; border-radius: 6px; }
+.edition h3 { font-size: 1.35rem; font-weight: 700; }
+.price { color: var(--fg-muted); margin: 4px 0 20px; }
+.edition ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.edition li { font-size: .92rem; display: flex; gap: 10px; }
+.edition li::before { content: '\2713'; color: var(--accent); font-weight: 700; }
+.edition .btn { margin-top: 24px; justify-content: center; }
+
+.contact { padding: 0 0 96px; }
+.contact-box { background: var(--surface); border: 1px solid var(--surface-border); border-radius: 20px; padding: 48px 32px; display: grid; grid-template-columns: 1fr 1.3fr; gap: 40px; align-items: start; }
+@media (max-width: 820px) { .contact-box { grid-template-columns: 1fr; padding: 32px 22px; } }
+.contact-box h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 700; margin-bottom: 12px; }
+.contact-box > div > p { color: var(--fg-muted); margin-bottom: 20px; }
+.contact-art { width: 120px; height: 120px; border-radius: 28px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.form { display: flex; flex-direction: column; gap: 18px; }
+.row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 520px) { .row { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-size: .88rem; font-weight: 500; }
+.field .req { color: var(--accent); }
+.field input, .field select, .field textarea { font: 15px var(--font); padding: 10px 12px; border: 1px solid var(--surface-border); border-radius: 8px; background: var(--bg); color: var(--fg); outline: none; transition: border-color .15s; }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); }
+.field textarea { resize: vertical; min-height: 120px; }
+.helper { font-size: .78rem; color: var(--fg-muted); }
+.success { text-align: center; padding: 40px 20px; }
+.success h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 8px; }
+.success p { color: var(--fg-muted); }
+
+footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+footer p { font-size: .85rem; color: var(--fg-muted); }
+footer ul { display: flex; gap: 20px; list-style: none; padding: 0; }
+footer a { font-size: .85rem; color: var(--fg-muted); text-decoration: none; }
+footer a:hover { color: var(--accent); }
+@media (max-width: 600px) { .section { padding: 56px 0; } .hero { padding-top: 44px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="#"><img src="brand/png/icon-180.png" alt="" width="32" height="32">AnyGantt<span>+</span></a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#gallery">Screenshots</a></li>
+      <li><a href="setup.html">Setup guide</a></li>
+      <li><a href="#pricing">Editions</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <h1>Gantt timelines for <span>every record</span></h1>
+        <p>AnyGantt+ puts related records on a scrollable timeline right on the record page. Pick a child object, choose your date fields, and you've got a Gantt chart. No code.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install from AppExchange</a>
+          <a class="btn btn-secondary" href="#gallery">See it in action</a>
+        </div>
+      </div>
+      <div class="hero-art">
+        <img src="brand/hero-scene-b.png" width="1600" height="900" alt="Otto the otter on a stool slides a bar on a Gantt board while Penny the penguin places the AnyGantt+ icon and Pim the red panda holds the today marker" fetchpriority="high">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="eyebrow">Features</div>
+    <h2>Everything you need in a record-page timeline</h2>
+    <p class="lead">A native Lightning Web Component with no iframes, no external services and no data leaving your org.</p>
+    <div class="features-grid">
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="14" height="4" rx="1"/><rect x="6" y="10" width="12" height="4" rx="1"/><rect x="4" y="16" width="16" height="4" rx="1"/></svg></div><h3>Bars on a timeline</h3><p>Records show up as colour-coded bars between their start and end dates. Bars that run past the edge of the visible range get a faded clip so it's obvious they continue.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div><h3>Any object, any date fields</h3><p>Standard or custom objects. Map any lookup and any date or datetime fields from a point-and-click configuration modal.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg></div><h3>Day, week and month zoom</h3><p>Switch between day (2 weeks), week (6 weeks) and month (6 months). Page forward and back, or jump straight to today.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 01-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 01-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 012.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 012.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></div><h3>Admin-friendly setup</h3><p>Pick child objects, date fields, display fields, colours and row grouping from a modal. Config is stored as custom metadata.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><h3>Permission-aware</h3><p>Respects object and field-level security. Only users with the AnyGantt+ Admin perm set can change the config.</p></div>
+      <div class="feature"><div class="feature-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><h3>Colour by picklist</h3><p>Map picklist values to bar colours (status, priority, team). Click a bar to view or edit the record. Click an empty date to create one.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section gallery" id="gallery">
+  <div class="wrap">
+    <div class="eyebrow">Screenshots</div>
+    <h2>A Gantt chart that fits right into Salesforce</h2>
+    <p class="lead">Timeline views, zoom levels and the configuration modal on a real record page.</p>
+    <div class="gallery-placeholder">
+      <p>Screenshots coming soon. The app is in final testing.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="setup">
+  <div class="wrap">
+    <div class="eyebrow">Setup</div>
+    <h2>Up and running in minutes</h2>
+    <p class="lead">Three steps from install to a working Gantt chart. The <a href="setup.html">setup guide</a> has the details.</p>
+    <div class="steps">
+      <a class="step" href="setup.html#install"><h3>1. Install the package</h3><p>Install AnyGantt+ from the AppExchange and assign the AnyGantt+ Admin perm set to whoever will set up timelines.</p></a>
+      <a class="step" href="setup.html#add"><h3>2. Add the component</h3><p>Open any record page in Lightning App Builder and drag AnyGantt+ onto the layout.</p></a>
+      <a class="step" href="setup.html#configure"><h3>3. Configure and go</h3><p>Click Configure Gantt, pick a child object, choose your date fields, map display fields and colours. Hit save and the timeline is live.</p></a>
+    </div>
+    <p style="margin-top:28px"><a class="btn btn-secondary" href="setup.html">Read the full setup guide</a></p>
+  </div>
+</section>
+
+<section class="band">
+  <div class="wrap">
+    <img src="brand/hero-scene-a.png" width="1200" height="300" alt="Penny the penguin carries the AnyGantt+ icon while Pim cheers and Otto works the Gantt board" loading="lazy">
+  </div>
+</section>
+
+<section class="section" id="pricing" style="padding-top:0">
+  <div class="wrap">
+    <div class="eyebrow">Editions</div>
+    <h2>Start free, upgrade when you need more</h2>
+    <p class="lead">Free gives you one Gantt config per org. Pro removes the limit for teams that need timelines on lots of objects. Want help setting things up? We do consulting too.</p>
+    <div class="editions">
+      <div class="edition">
+        <h3>Free</h3><p class="price">$0 / org / forever</p>
+        <ul><li>One Gantt configuration per org</li><li>Day, week and month zoom</li><li>Inline record create, view and edit</li><li>Full permission and locale support</li><li>Community support</li></ul>
+        <a class="btn btn-secondary" href="https://appexchange.salesforce.com" target="_blank" rel="noopener">Install Free</a>
+      </div>
+      <div class="edition featured">
+        <div class="edition-tag">Recommended</div>
+        <h3>Pro</h3><p class="price">$490 / org / year</p>
+        <ul><li>Unlimited Gantt configurations</li><li>Everything in Free</li><li>Priority support</li></ul>
+        <a class="btn btn-primary" href="#contact">Upgrade to Pro</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="contact-box">
+      <div>
+        <img class="contact-art" src="brand/png/icon-512.png" alt="" width="120" height="120">
+        <h2>Get in touch</h2>
+        <p>Need more configs, have a question, or want to request a feature? Drop us a message and we'll get back to you within a business day.</p>
+      </div>
+      <div>
+        <form id="contactForm" class="form" novalidate>
+          <div class="row">
+            <div class="field"><label for="cf-name">Name <span class="req">*</span></label><input type="text" id="cf-name" name="entry.531518552" required></div>
+            <div class="field"><label for="cf-email">Email <span class="req">*</span></label><input type="email" id="cf-email" name="entry.103360093" required></div>
+          </div>
+          <div class="row">
+            <div class="field"><label for="cf-company">Company / Org Name <span class="req">*</span></label><input type="text" id="cf-company" name="entry.564826811" required></div>
+            <div class="field"><label for="cf-type">Request Type <span class="req">*</span></label>
+              <select id="cf-type" name="entry.612991989" required>
+                <option value="" disabled selected>Select</option>
+                <option>Upgrade to Pro (limit increase)</option>
+                <option>Consulting Services</option>
+                <option>General Question</option>
+                <option>Bug Report</option>
+                <option>Feature Request</option>
+              </select>
+            </div>
+          </div>
+          <div class="field"><label for="cf-orgid">Salesforce Org ID</label><input type="text" id="cf-orgid" name="entry.1915657442" placeholder="00D"><span class="helper">Found under Setup, Company Information</span></div>
+          <div class="field"><label for="cf-message">Message <span class="req">*</span></label><textarea id="cf-message" name="entry.1088586860" required></textarea></div>
+          <div><button type="submit" class="btn btn-primary" id="cf-submit">Send Message</button></div>
+        </form>
+        <div id="formSuccess" class="success" hidden><h3>Message sent</h3><p>Thanks! We'll get back to you within a business day.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 AnyGantt+. All rights reserved.</p>
+    <ul><li><a href="#features">Features</a></li><li><a href="#gallery">Screenshots</a></li><li><a href="setup.html">Setup guide</a></li><li><a href="#pricing">Editions</a></li><li><a href="#contact">Contact</a></li></ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var form = this, btn = document.getElementById('cf-submit'), email = document.getElementById('cf-email');
+    if (!form.checkValidity()) { form.reportValidity(); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value)) {
+      email.setCustomValidity('Please enter a valid email address.'); form.reportValidity(); email.setCustomValidity(''); return;
+    }
+    btn.textContent = 'Sending'; btn.disabled = true;
+    var done = function () { form.hidden = true; document.getElementById('formSuccess').hidden = false; };
+    fetch('https://docs.google.com/forms/d/e/1FAIpQLSerWWOh-6B75PiFq3dk0nr5CnzYcuZz3qZv0VWHx1_lAnyi7Q/formResponse', { method: 'POST', body: new FormData(form), mode: 'no-cors' }).then(done).catch(done);
+  });
+})();
+</script>
+</body>
+</html>

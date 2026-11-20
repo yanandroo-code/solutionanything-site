@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AnyKanban+ Setup Guide</title>
+<meta name="description" content="Install AnyKanban+, assign permissions, add it to a record page and configure your first Kanban board.">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/png/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/png/icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577; --accent: #0B6FCC; --accent-hover: #0958A5;
+  --surface: #FFFFFF; --surface-border: #E2E6EC; --surface-raised: #F0F3F7; --amber: #F2A33A;
+  --shadow: 0 1px 2px rgba(27,35,50,.05), 0 12px 32px -8px rgba(27,35,50,.14);
+  --font: 'DM Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --accent-hover: #6DBEF9;
+    --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --accent-hover: #6DBEF9;
+  --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6); color-scheme: dark;
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.2; }
+code, kbd { font-family: var(--mono); font-size: .86em; background: var(--surface-raised); border: 1px solid var(--surface-border); border-radius: 5px; padding: 1px 6px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--font); text-decoration: none; padding: 11px 20px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; }
+.btn-primary { background: var(--accent); color: #fff; } .btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--surface-border); } .btn-secondary:hover { background: var(--surface-raised); }
+
+.nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--surface-border); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 1.15rem; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; } .brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; list-style: none; padding: 0; }
+.nav-links a { font-size: .92rem; font-weight: 500; color: var(--fg-muted); text-decoration: none; } .nav-links a:hover { color: var(--fg); }
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+.head { padding: 56px 0 36px; border-bottom: 1px solid var(--surface-border); }
+.head .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+.head h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); font-weight: 700; margin-bottom: 12px; }
+.head p { color: var(--fg-muted); font-size: 1.08rem; max-width: 640px; }
+
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; padding: 48px 16px 96px; }
+@media (max-width: 880px) { .layout { grid-template-columns: 1fr; gap: 24px; } }
+.toc { position: sticky; top: 84px; align-self: start; }
+@media (max-width: 880px) { .toc { position: static; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 12px; padding: 16px; } }
+.toc strong { display: block; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+.toc ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2px; counter-reset: toc; }
+.toc a { display: flex; gap: 10px; font-size: .92rem; color: var(--fg-muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; counter-increment: toc; }
+.toc a::before { content: counter(toc); font-family: var(--mono); font-size: .8rem; color: var(--accent); min-width: 14px; }
+.toc a:hover, .toc a.active { color: var(--fg); background: var(--surface-raised); }
+
+.doc { max-width: 720px; min-width: 0; }
+.doc section { padding-bottom: 56px; }
+.doc h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 14px; display: flex; gap: 14px; align-items: baseline; }
+.doc h2 .n { font-family: var(--mono); font-size: 1rem; color: var(--accent); }
+.doc h3 { font-size: 1.08rem; font-weight: 600; margin: 28px 0 8px; }
+.doc p, .doc li { color: var(--fg); }
+.doc p { margin-bottom: 12px; }
+.doc ol, .doc ul { padding-left: 22px; margin-bottom: 14px; }
+.doc li { margin-bottom: 6px; }
+.doc li ul { margin: 6px 0 0; }
+.doc .muted { color: var(--fg-muted); }
+.note { border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0 20px; font-size: .95rem; }
+.note.warn { border-left-color: var(--amber); }
+.note strong { display: block; margin-bottom: 2px; }
+.shot { margin: 18px 0 24px; }
+.shot img { border-radius: 12px; border: 1px solid var(--surface-border); box-shadow: var(--shadow); }
+.shot figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: .93rem; margin: 10px 0 20px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--surface-border); }
+th { font-weight: 600; background: var(--surface-raised); }
+td:first-child { white-space: nowrap; font-weight: 500; }
+.table-wrap { overflow-x: auto; }
+.next { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+footer p, footer a { font-size: .85rem; color: var(--fg-muted); text-decoration: none; }
+footer ul { display: flex; gap: 20px; list-style: none; padding: 0; }
+footer a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="brand/png/icon-180.png" alt="" width="32" height="32">AnyKanban<span>+</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#gallery">Screenshots</a></li>
+      <li><a href="setup.html">Setup guide</a></li>
+      <li><a href="index.html#pricing">Editions</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-secondary" href="index.html#contact">Get help</a>
+  </div>
+</header>
+
+<div class="head">
+  <div class="wrap">
+    <div class="eyebrow">Setup guide</div>
+    <h1>Install and configure AnyKanban+</h1>
+    <p>Everything an administrator needs to get a Kanban board running on a record page, from installation to troubleshooting. Allow about fifteen minutes for your first board.</p>
+  </div>
+</div>
+
+<div class="wrap layout">
+  <aside class="toc">
+    <strong>On this page</strong>
+    <ol id="toc">
+      <li><a href="#requirements">Before you start</a></li>
+      <li><a href="#install">Install the package</a></li>
+      <li><a href="#permissions">Assign permissions</a></li>
+      <li><a href="#add">Add to a record page</a></li>
+      <li><a href="#configure">Configure the board</a></li>
+      <li><a href="#using">Using the board</a></li>
+      <li><a href="#limits">Free edition limit</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </aside>
+
+  <main class="doc">
+
+    <section id="requirements">
+      <h2><span class="n">1</span>Before you start</h2>
+      <p>AnyKanban+ is a Lightning Web Component that runs on Lightning record pages. It shows child records of the current record as draggable cards in a Kanban board, grouped by a picklist field you choose.</p>
+      <ul>
+        <li><strong>Lightning Experience</strong> with permission to edit record pages in Lightning App Builder.</li>
+        <li><strong>A parent object</strong> whose record page will host the board, for example Account, Project or Opportunity.</li>
+        <li><strong>One or more child objects</strong> that look up to the parent and have at least one picklist field to use as columns, for example Case with Status or Opportunity Product with Stage.</li>
+      </ul>
+      <p class="muted">No external services are involved. The component reads and writes records through standard Salesforce APIs, and every query respects object and field-level security.</p>
+    </section>
+
+    <section id="install">
+      <h2><span class="n">2</span>Install the package</h2>
+      <ol>
+        <li>Open the AnyKanban+ listing on the AppExchange and choose <strong>Get It Now</strong>. We recommend installing in a sandbox first.</li>
+        <li>Log in to the target org and choose who the package is installed for. <strong>Install for Admins Only</strong> is the safest default; you will grant access explicitly in the next step.</li>
+        <li>Approve the installation. The package adds the <code>AnyKanban+</code> component, one small custom object (<code>Board Configuration</code>) that stores board settings, the <code>AnyKanban+ Admin</code> permission set and a set of translatable labels.</li>
+      </ol>
+      <div class="note"><strong>Upgrading</strong>Installing a newer version over an existing one keeps all saved board configurations.</div>
+    </section>
+
+    <section id="permissions">
+      <h2><span class="n">3</span>Assign permissions</h2>
+      <p>Two groups of people use AnyKanban+ and they need different things.</p>
+      <h3>Administrators who configure boards</h3>
+      <ol>
+        <li>Go to <strong>Setup</strong>, search for <strong>Permission Sets</strong> and open <strong>AnyKanban+ Admin</strong>.</li>
+        <li>Choose <strong>Manage Assignments</strong>, then <strong>Add Assignment</strong>, and pick the users who should be able to set up boards.</li>
+      </ol>
+      <p>Only users with this permission set see the gear icon and the <strong>Configure Board</strong> button on the component. Everyone else sees the finished board.</p>
+      <h3>Everyone who uses the board</h3>
+      <p>End users need no AnyKanban+ permission. They only need their normal access to the objects involved:</p>
+      <ul>
+        <li><strong>Read</strong> on the child object and on the fields used for the card title and column picklist, so cards appear.</li>
+        <li><strong>Edit</strong> on the child object and the picklist field if they should be able to drag cards between columns.</li>
+        <li><strong>Create</strong> on the child object if they should be able to use the <strong>New</strong> button.</li>
+      </ul>
+      <p class="muted">If a user lacks access, the related records or buttons are simply hidden for them. The board never bypasses sharing rules or field-level security.</p>
+    </section>
+
+    <section id="add">
+      <h2><span class="n">4</span>Add the component to a record page</h2>
+      <ol>
+        <li>Open any record of the parent object, click the gear in the header and choose <strong>Edit Page</strong>.</li>
+        <li>In the Components panel on the left, scroll to <strong>Custom</strong> (or search) and drag <strong>AnyKanban+</strong> onto the page. A full-width region or the main column works best.</li>
+        <li>Optionally set <strong>Component Height</strong> in the properties panel, for example <code>600px</code> or <code>80vh</code>. Leave it blank to let the board size itself.</li>
+        <li><strong>Save</strong>, then <strong>Activate</strong> the page if it is new (as the org default, or for specific apps and profiles).</li>
+      </ol>
+      <p>Back on the record page, the component shows a <strong>Configure Board</strong> prompt to administrators until a configuration exists.</p>
+    </section>
+
+    <section id="configure">
+      <h2><span class="n">5</span>Configure the board</h2>
+      <p>Click <strong>Configure Board</strong> (or the gear icon in the component header) to open the configuration modal. Settings are saved per object: configure the board once on any Account record and it applies to every Account record page in the org.</p>
+
+      <h3>General</h3>
+      <div class="table-wrap"><table>
+        <tr><th>Setting</th><th>What it does</th></tr>
+        <tr><td>Component Title</td><td>The heading shown in the component. Defaults to AnyKanban+.</td></tr>
+        <tr><td>Allow Drag</td><td>Enables drag-and-drop to move cards between columns. When off, the board is read-only.</td></tr>
+        <tr><td>Allow Add Records</td><td>Shows the <strong>New</strong> button and lets users create a record directly into a column.</td></tr>
+        <tr><td>Allow Edit Records</td><td>Adds an <strong>Edit</strong> button to the card detail modal.</td></tr>
+      </table></div>
+
+      <h3>Child objects</h3>
+      <p>Click <strong>Add Child Object</strong> and choose a relationship from the list. AnyKanban+ lists every object that looks up to the parent and that you have access to, along with the lookup field used.</p>
+      <div class="table-wrap"><table>
+        <tr><th>Setting</th><th>What it does</th></tr>
+        <tr><td>Relationship Field</td><td>The lookup on the child object that points to the parent. Pre-filled from the relationship you chose.</td></tr>
+        <tr><td>Column Field</td><td>A picklist field whose values become the Kanban columns. Each picklist value is one column, in the order defined on the field.</td></tr>
+        <tr><td>Display Name Field</td><td>The field used as the card title, for example Subject or Name.</td></tr>
+        <tr><td>Card Detail Fields</td><td>Optional additional fields shown on each card below the title, for example Owner, Priority or Due Date.</td></tr>
+        <tr><td>Colour</td><td>Pick a default colour swatch for this object, or turn on <strong>Colour by Picklist</strong>, choose a second picklist field and assign a colour per value (for example by Priority).</td></tr>
+        <tr><td>Filter Condition</td><td>Optional SOQL <code>WHERE</code> condition without the word WHERE, for example <code>IsClosed = false</code>. Only matching records appear.</td></tr>
+      </table></div>
+
+      <div class="note warn"><strong>Field types</strong>The Column Field must be a picklist (standard or custom). Multi-select picklists are not supported.</div>
+
+      <p>Click <strong>Save</strong>. The board loads immediately for you, and for every other user the next time they open a record of that object.</p>
+      <p>To change a configuration later, open the modal again from the same object, adjust the settings and save.</p>
+    </section>
+
+    <section id="using">
+      <h2><span class="n">6</span>Using the board</h2>
+      <ul>
+        <li><strong>Drag a card</strong> from one column to another to update the picklist value. The record is saved immediately.</li>
+        <li><strong>Click a card</strong> to see its fields. From there, <strong>Open Record</strong> goes to the full record page and <strong>Edit</strong> (if allowed) opens an inline edit form.</li>
+        <li><strong>Create records</strong> with the <strong>New</strong> button or by clicking the <strong>+</strong> at the top of any column. The new record is linked to the parent automatically and the picklist value is set to that column.</li>
+        <li><strong>Column counts</strong> show the number of cards in each column. Empty columns still appear so the board layout stays stable.</li>
+      </ul>
+      <p class="muted">The board respects each user's Salesforce locale for date and number formats.</p>
+    </section>
+
+    <section id="limits">
+      <h2><span class="n">7</span>Free edition limit</h2>
+      <p>The Free edition supports <strong>one board configuration per org</strong>, which means one parent object. You can add as many child objects to that configuration as you like.</p>
+      <p>When a configuration already exists and an administrator opens the configuration modal on a different object, the modal shows which object is already configured and offers two options:</p>
+      <ul>
+        <li><strong>Remove Existing Configuration</strong> to free the slot and configure this object instead.</li>
+        <li><strong>Upgrade to Pro</strong> for unlimited configurations. <a href="index.html#contact">Contact us</a> with your org ID (Setup, Company Information) and we will enable it on your org, no reinstall needed.</li>
+      </ul>
+      <p>If an org ever holds more configurations than its limit allows (for example after a downgrade), every board shows a notice until an administrator removes the extra configurations.</p>
+    </section>
+
+    <section id="troubleshooting">
+      <h2><span class="n">8</span>Troubleshooting</h2>
+      <div class="table-wrap"><table>
+        <tr><th>What you see</th><th>What to do</th></tr>
+        <tr><td>No gear icon or Configure button</td><td>The user is not assigned the <strong>AnyKanban+ Admin</strong> permission set. See <a href="#permissions">Assign permissions</a>.</td></tr>
+        <tr><td>Configuration Required</td><td>No board has been configured for this object yet. Open the modal and add a child object.</td></tr>
+        <tr><td>Field was not found</td><td>A field used in the configuration was renamed or deleted. Reopen the modal and pick the field again.</td></tr>
+        <tr><td>Column field must be a picklist</td><td>The chosen column field is not a picklist type. Pick a different field.</td></tr>
+        <tr><td>Field does not look up to this record's object type</td><td>The relationship field points somewhere else. Choose the lookup that targets the parent object.</td></tr>
+        <tr><td>You don't have access</td><td>The current user lacks Read on the child object or one of its fields. Fix the profile or permission set; AnyKanban+ never widens access on its own.</td></tr>
+        <tr><td>No cards on the board</td><td>Usually a filter or access question. Check the Filter Condition, and confirm matching records exist on this parent.</td></tr>
+        <tr><td>Board is cut off or too tall</td><td>Set <strong>Component Height</strong> on the component in Lightning App Builder.</td></tr>
+      </table></div>
+      <p>Still stuck? <a href="index.html#contact">Send us a message</a> with the object names involved and, if possible, a screenshot of the error. Include your org ID so we can look up your edition.</p>
+      <div class="next">
+        <a class="btn btn-primary" href="index.html#contact">Contact support</a>
+        <a class="btn btn-secondary" href="index.html">Back to overview</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 AnyKanban+. All rights reserved.</p>
+    <ul><li><a href="index.html">Overview</a></li><li><a href="setup.html">Setup guide</a></li><li><a href="index.html#contact">Contact</a></li></ul>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var links = [].slice.call(document.querySelectorAll('#toc a'));
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function update() {
+    var y = window.scrollY + 120, idx = 0;
+    sections.forEach(function (s, i) { if (s.offsetTop <= y) idx = i; });
+    links.forEach(function (a, i) { a.classList.toggle('active', i === idx); });
+  }
+  window.addEventListener('scroll', update, { passive: true }); update();
+})();
+</script>
+</body>
+</html>
