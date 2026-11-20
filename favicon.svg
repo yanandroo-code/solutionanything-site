@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B6FCC"/>
+      <stop offset="1" stop-color="#2E9BF0"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#tile)"/>
+  <!-- Four small tiles in a 2x2 grid — representing the suite -->
+  <rect x="108" y="108" width="128" height="128" rx="28" fill="#FFFFFF"/>
+  <rect x="276" y="108" width="128" height="128" rx="28" fill="#FFFFFF"/>
+  <rect x="108" y="276" width="128" height="128" rx="28" fill="#FFFFFF"/>
+  <rect x="276" y="276" width="128" height="128" rx="28" fill="#FFFFFF"/>
+  <!-- Plus connecting them at centre -->
+  <rect x="244" y="196" width="24" height="120" rx="8" fill="#FFFFFF"/>
+  <rect x="196" y="244" width="120" height="24" rx="8" fill="#FFFFFF"/>
+</svg>
