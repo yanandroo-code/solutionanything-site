@@ -4,26 +4,278 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AnyRecordHierarchy+ Setup Guide</title>
-<meta name="description" content="Install and configure AnyRecordHierarchy+ on your Salesforce org.">
+<meta name="description" content="Install and configure AnyRecordHierarchy+ on your Salesforce org. Step-by-step guide covering installation, permissions, page layout and configuration.">
 <link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap">
+<link rel="icon" type="image/png" sizes="32x32" href="brand/png/icon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="brand/png/icon-180.png">
+<link rel="canonical" href="https://solutionanything.co.uk/anyhierarchy/setup.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
-:root { --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577; --accent: #0B6FCC; --font: 'DM Sans', system-ui, sans-serif; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; color-scheme: dark; } }
-:root[data-theme="dark"] { --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; color-scheme: dark; }
+:root {
+  --bg: #FAFBFC; --fg: #1B2332; --fg-muted: #5A6577; --accent: #0B6FCC; --accent-hover: #0958A5;
+  --surface: #FFFFFF; --surface-border: #E2E6EC; --surface-raised: #F0F3F7; --amber: #F2A33A;
+  --shadow: 0 1px 2px rgba(27,35,50,.05), 0 12px 32px -8px rgba(27,35,50,.14);
+  --font: 'DM Sans', system-ui, sans-serif; --mono: 'IBM Plex Mono', ui-monospace, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --accent-hover: #6DBEF9;
+    --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1318; --fg: #E4E8EE; --fg-muted: #8B95A5; --accent: #4EACF7; --accent-hover: #6DBEF9;
+  --surface: #1A1F28; --surface-border: #2A3140; --surface-raised: #222935;
+  --shadow: 0 1px 2px rgba(0,0,0,.4), 0 12px 32px -8px rgba(0,0,0,.6); color-scheme: dark;
+}
 * { box-sizing: border-box; margin: 0; }
-body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.6;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0; }
-.wrap { max-width: 720px; margin: 0 auto; padding-block: 48px 80px; }
-h1 { font-size: 1.8rem; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 8px; }
-p { margin-bottom: 16px; } p.lead { color: var(--fg-muted); margin-bottom: 40px; } a { color: var(--accent); }
+html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+body { background: var(--bg); color: var(--fg); font-family: var(--font); font-size: 16px; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+img { max-width: 100%; height: auto; display: block; }
+a { color: var(--accent); }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.2; }
+code, kbd { font-family: var(--mono); font-size: .86em; background: var(--surface-raised); border: 1px solid var(--surface-border); border-radius: 5px; padding: 1px 6px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; font: 600 15px var(--font); text-decoration: none; padding: 11px 20px; border-radius: 10px; border: 1px solid transparent; cursor: pointer; }
+.btn-primary { background: var(--accent); color: #fff; } .btn-primary:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); color: var(--fg); border-color: var(--surface-border); } .btn-secondary:hover { background: var(--surface-raised); }
+
+.nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 82%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--surface-border); }
+.nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); font-weight: 700; font-size: 1.15rem; }
+.brand img { width: 32px; height: 32px; border-radius: 8px; } .brand span { color: var(--accent); }
+.nav-links { display: flex; gap: 26px; list-style: none; padding: 0; }
+.nav-links a { font-size: .92rem; font-weight: 500; color: var(--fg-muted); text-decoration: none; } .nav-links a:hover { color: var(--fg); }
+@media (max-width: 720px) { .nav-links { display: none; } }
+
+.head { padding: 56px 0 36px; border-bottom: 1px solid var(--surface-border); }
+.head .eyebrow { font-size: .85rem; font-weight: 600; color: var(--accent); margin-bottom: 10px; }
+.head h1 { font-size: clamp(2rem, 4.2vw, 2.9rem); font-weight: 700; margin-bottom: 12px; }
+.head p { color: var(--fg-muted); font-size: 1.08rem; max-width: 640px; }
+
+.layout { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 56px; padding: 48px 16px 96px; }
+@media (max-width: 880px) { .layout { grid-template-columns: 1fr; gap: 24px; } }
+.toc { position: sticky; top: 84px; align-self: start; }
+@media (max-width: 880px) { .toc { position: static; background: var(--surface); border: 1px solid var(--surface-border); border-radius: 12px; padding: 16px; } }
+.toc strong { display: block; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 10px; }
+.toc ol { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 2px; counter-reset: toc; }
+.toc a { display: flex; gap: 10px; font-size: .92rem; color: var(--fg-muted); text-decoration: none; padding: 6px 10px; border-radius: 8px; counter-increment: toc; }
+.toc a::before { content: counter(toc); font-family: var(--mono); font-size: .8rem; color: var(--accent); min-width: 14px; }
+.toc a:hover, .toc a.active { color: var(--fg); background: var(--surface-raised); }
+
+.doc { max-width: 720px; min-width: 0; }
+.doc section { padding-bottom: 56px; }
+.doc h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 14px; display: flex; gap: 14px; align-items: baseline; }
+.doc h2 .n { font-family: var(--mono); font-size: 1rem; color: var(--accent); }
+.doc h3 { font-size: 1.08rem; font-weight: 600; margin: 28px 0 8px; }
+.doc p, .doc li { color: var(--fg); }
+.doc p { margin-bottom: 12px; }
+.doc ol, .doc ul { padding-left: 22px; margin-bottom: 14px; }
+.doc li { margin-bottom: 6px; }
+.doc li ul { margin: 6px 0 0; }
+.doc .muted { color: var(--fg-muted); }
+.note { border-left: 3px solid var(--accent); background: var(--surface); border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0 20px; font-size: .95rem; }
+.note.warn { border-left-color: var(--amber); }
+.note strong { display: block; margin-bottom: 2px; }
+.shot { margin: 18px 0 24px; }
+.shot img { border-radius: 12px; border: 1px solid var(--surface-border); box-shadow: var(--shadow); }
+.shot figcaption { font-size: .85rem; color: var(--fg-muted); margin-top: 8px; }
+table { width: 100%; border-collapse: collapse; font-size: .93rem; margin: 10px 0 20px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--surface-border); }
+th { font-weight: 600; background: var(--surface-raised); }
+td:first-child { white-space: nowrap; font-weight: 500; }
+.table-wrap { overflow-x: auto; }
+.next { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+
+footer { border-top: 1px solid var(--surface-border); padding: 32px 0; }
+footer .wrap { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px; }
+footer p, footer a { font-size: .85rem; color: var(--fg-muted); text-decoration: none; }
+footer ul { display: flex; gap: 20px; list-style: none; padding: 0; }
+footer a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <h1>AnyRecordHierarchy+ Setup Guide</h1>
-  <p class="lead">This guide will be written once the component is built and screenshots are available. It will follow the AnyCal+ guide: install, assign the admin permission set, add the component to a record page, configure with the gear icon.</p>
-  <p><a href="index.html">&larr; Back to AnyRecordHierarchy+</a></p>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html"><img src="brand/png/icon-180.png" alt="" width="32" height="32">AnyRecordHierarchy<span>+</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html#gallery">Screenshots</a></li>
+      <li><a href="setup.html">Setup guide</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+    <a class="btn btn-secondary" href="index.html#contact">Get help</a>
+  </div>
+</header>
+
+<div class="head">
+  <div class="wrap">
+    <div class="eyebrow">Setup guide</div>
+    <h1>Install and configure AnyRecordHierarchy+</h1>
+    <p>Everything an administrator needs to get a hierarchy tree running on a record page, from installation to troubleshooting. Allow about ten minutes for your first hierarchy.</p>
+  </div>
 </div>
+
+<div class="wrap layout">
+  <aside class="toc">
+    <strong>On this page</strong>
+    <ol id="toc">
+      <li><a href="#requirements">Before you start</a></li>
+      <li><a href="#install">Install the package</a></li>
+      <li><a href="#permissions">Assign permissions</a></li>
+      <li><a href="#add">Add to a record page</a></li>
+      <li><a href="#configure">Configure the hierarchy</a></li>
+      <li><a href="#using">Using the hierarchy</a></li>
+      <li><a href="#troubleshooting">Troubleshooting</a></li>
+    </ol>
+  </aside>
+
+  <main class="doc">
+
+    <section id="requirements">
+      <h2><span class="n">1</span>Before you start</h2>
+      <p>AnyRecordHierarchy+ is a Lightning Web Component that runs on Lightning record pages. It shows the ancestors and descendants of the current record by following a self-referencing lookup field.</p>
+      <ul>
+        <li><strong>Lightning Experience</strong> with permission to edit record pages in Lightning App Builder.</li>
+        <li><strong>An object with a self-lookup</strong> — a lookup field that points back to the same object. Standard examples include Account (via <code>ParentId</code>) and any custom object with a self-referencing lookup.</li>
+      </ul>
+      <p class="muted">No external services are involved. The component reads records through standard Salesforce APIs, and every query respects object and field-level security.</p>
+    </section>
+
+    <section id="install">
+      <h2><span class="n">2</span>Install the package</h2>
+      <ol>
+        <li>AnyRecordHierarchy+ will soon be available on the AppExchange. Once listed, choose <strong>Get It Now</strong> on the listing page. We recommend installing in a sandbox first.</li>
+        <li>Log in to the target org and choose who the package is installed for. <strong>Install for Admins Only</strong> is the safest default; you will grant access explicitly in the next step.</li>
+        <li>Approve the installation. The package adds the <code>AnyRecordHierarchy+</code> component, one small custom object (<code>Configuration</code>) that stores hierarchy settings, the <code>AnyRecordHierarchy+ Admin</code> permission set and a set of translatable labels.</li>
+      </ol>
+      <div class="note"><strong>Upgrading</strong> Installing a newer version over an existing one keeps all saved hierarchy configurations.</div>
+    </section>
+
+    <section id="permissions">
+      <h2><span class="n">3</span>Assign permissions</h2>
+      <p>Two permission sets are included:</p>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Permission set</th><th>Purpose</th><th>Assign to</th></tr>
+          <tr><td><code>AnyRecordHierarchy+ Admin</code></td><td>Create and edit hierarchy configurations</td><td>Admins and anyone who will set up hierarchies</td></tr>
+          <tr><td><code>AnyRecordHierarchy+ User</code></td><td>View the hierarchy on record pages</td><td>All users who need to see the hierarchy</td></tr>
+        </table>
+      </div>
+      <p>Assign via Setup → Permission Sets, or use a Permission Set Group for bulk assignment.</p>
+    </section>
+
+    <section id="add">
+      <h2><span class="n">4</span>Add to a record page</h2>
+      <ol>
+        <li>Navigate to a record of the object you want the hierarchy on (e.g. an Account record).</li>
+        <li>Click the <strong>gear icon → Edit Page</strong> to open Lightning App Builder.</li>
+        <li>In the components panel on the left, search for <strong>AnyRecordHierarchy+</strong>.</li>
+        <li>Drag the component onto the page layout. The main content area or a full-width region works best for the table view.</li>
+        <li><strong>Save</strong> and <strong>Activate</strong> the page (choose Org Default or App/Profile assignment as needed).</li>
+      </ol>
+    </section>
+
+    <section id="configure">
+      <h2><span class="n">5</span>Configure the hierarchy</h2>
+      <p>Once the component is on the page, click the <strong>gear icon</strong> on the component header to open the configuration modal.</p>
+
+      <h3>Hierarchy section</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Field</th><th>Description</th></tr>
+          <tr><td>Parent Field (self-lookup)</td><td>The lookup field that points to the same object. For Account this is <code>ParentId</code>. For custom objects, pick your self-referencing lookup.</td></tr>
+          <tr><td>Name Field</td><td>The field displayed as the node label. Usually the Name field.</td></tr>
+        </table>
+      </div>
+
+      <figure class="shot">
+        <img src="screenshots/config-hierarchy.png" alt="Configuration modal showing hierarchy settings, display fields and node colour mapping">
+        <figcaption>Hierarchy, display fields and node colour settings.</figcaption>
+      </figure>
+
+      <h3>Display fields</h3>
+      <p>Add up to <strong>five display fields</strong> that appear as columns in the table view or as badges in the tree view. These can be any field on the object — Type, Industry, BillingCity, Owner, or custom fields.</p>
+
+      <h3>Node colours</h3>
+      <p>Choose a <strong>Colour By Field</strong> (a picklist field) and assign a colour to each picklist value. Nodes in the tree view get a coloured bar on the left; table rows show a coloured indicator. This makes it easy to spot patterns — customers vs partners, active vs inactive, or any other category.</p>
+
+      <h3>Display section</h3>
+      <div class="table-wrap">
+        <table>
+          <tr><th>Setting</th><th>Description</th></tr>
+          <tr><td>Default View</td><td><strong>Tree</strong> (compact indented tree) or <strong>Table</strong> (full columns). Users can toggle between views if allowed.</td></tr>
+          <tr><td>Max Depth</td><td>How many levels deep the hierarchy goes. Default is 10.</td></tr>
+          <tr><td>Max Nodes</td><td>The maximum number of records loaded. Default is 500. Keeps large hierarchies performant.</td></tr>
+          <tr><td>Allow users to toggle view</td><td>When checked, users see a toggle to switch between tree and table view.</td></tr>
+          <tr><td>Expand to current record</td><td>Auto-expands the tree to show and highlight the record the user is currently viewing.</td></tr>
+          <tr><td>Show child counts</td><td>Displays the number of direct children next to each node.</td></tr>
+        </table>
+      </div>
+
+      <figure class="shot">
+        <img src="screenshots/config-display.png" alt="Configuration modal showing display settings, depth limits and filter">
+        <figcaption>Display options, depth limits and SOQL filter.</figcaption>
+      </figure>
+
+      <h3>Filter</h3>
+      <p>Add a <strong>WHERE clause</strong> to exclude certain records from the hierarchy. For example, <code>Type != 'Inactive'</code> hides inactive accounts. The filter is applied when the hierarchy loads.</p>
+
+      <p>Click <strong>Save</strong> and the hierarchy appears immediately.</p>
+    </section>
+
+    <section id="using">
+      <h2><span class="n">6</span>Using the hierarchy</h2>
+      <ul>
+        <li><strong>Expand / Collapse</strong> — Click the arrow next to any node, or use the Expand All / Collapse All buttons in the header.</li>
+        <li><strong>Navigate</strong> — Click any record name to navigate to that record's page. The hierarchy reloads centred on the new record.</li>
+        <li><strong>Current record</strong> — The record you are viewing is highlighted with a dot and a subtle background colour.</li>
+        <li><strong>Child counts</strong> — When enabled, each node shows the number of direct children in parentheses.</li>
+        <li><strong>Tree vs Table</strong> — Tree view is compact and shows colour bars. Table view shows the full set of display fields as columns.</li>
+      </ul>
+      <figure class="shot">
+        <img src="screenshots/tree-view.png" alt="Tree view showing colour-coded Account hierarchy">
+        <figcaption>Tree view with colour-coded nodes by Account Type.</figcaption>
+      </figure>
+    </section>
+
+    <section id="troubleshooting">
+      <h2><span class="n">7</span>Troubleshooting</h2>
+
+      <h3>The component shows "No hierarchy found"</h3>
+      <ul>
+        <li>Make sure the current record's object has a self-referencing lookup field.</li>
+        <li>Check that the record is part of a hierarchy — it needs either a parent or children (or both) to display anything.</li>
+        <li>Verify the user has the <code>AnyRecordHierarchy+ User</code> permission set and read access to the object and fields.</li>
+      </ul>
+
+      <h3>Some records are missing from the tree</h3>
+      <ul>
+        <li>Check field-level security — the user must have read access to the parent lookup field, name field and all display fields.</li>
+        <li>Check the WHERE clause filter — it may be excluding records you expect to see.</li>
+        <li>Check Max Depth and Max Nodes — increase them if the hierarchy is larger than the defaults.</li>
+      </ul>
+
+      <h3>The gear icon doesn't appear</h3>
+      <p>Only users with the <code>AnyRecordHierarchy+ Admin</code> permission set can see the configuration gear icon. Assign this permission set to the user who needs to configure hierarchies.</p>
+
+      <div class="next">
+        <a class="btn btn-secondary" href="index.html">&larr; Back to AnyRecordHierarchy+</a>
+        <a class="btn btn-secondary" href="index.html#contact">Get help</a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Solution Anything</p>
+    <ul><li><a href="/anysuite/">Any+ Suite</a></li><li><a href="index.html">AnyRecordHierarchy+</a></li><li><a href="index.html#contact">Contact</a></li></ul>
+  </div>
+</footer>
+
 </body>
 </html>
