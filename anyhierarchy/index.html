@@ -368,7 +368,7 @@ footer a:hover { color: var(--accent); }
             </div>
           </div>
           <div class="field"><label for="cf-msg">Message <span class="req">*</span></label><textarea id="cf-msg" name="entry.1708498498" required></textarea></div>
-          <button class="btn btn-primary" type="submit" id="cf-submit">Send message</button>
+          <div><button class="btn btn-primary" type="submit" id="cf-submit">Send message</button></div>
           <p class="helper">Your details go to our Google Form inbox. We never share your info.</p>
         </form>
         <div class="success" id="formSuccess" hidden>
@@ -392,8 +392,8 @@ footer a:hover { color: var(--accent); }
   var shots = [
     { src: 'screenshots/table-view-full.png',  title: 'Table view',              url: '/lightning/r/Account/view', desc: 'Full hierarchy on an Account record page with Type, Industry, Street, City and Country columns. The current record is highlighted.' },
     { src: 'screenshots/tree-view.png',         title: 'Tree view',               url: '/lightning/r/Account/view', desc: 'Compact indented tree with colour-coded nodes by account type. Expand and collapse individual branches or the entire tree.' },
-    { src: 'screenshots/config-hierarchy.png',  title: 'Configuration — Hierarchy', url: '/lightning/r/Account/view', desc: 'Pick the self-lookup field, name field, up to five display fields and assign node colours by picklist value.' },
-    { src: 'screenshots/config-display.png',    title: 'Configuration — Display',   url: '/lightning/r/Account/view', desc: 'Set the default view, max depth, max nodes, toggle child counts and add a SOQL filter condition.' }
+    { src: 'screenshots/config-hierarchy.png',  title: 'Config: hierarchy',   url: '/lightning/r/Account/view', desc: 'Pick the self-lookup field, name field, up to five display fields and assign node colours by picklist value.' },
+    { src: 'screenshots/config-display.png',    title: 'Config: display',     url: '/lightning/r/Account/view', desc: 'Set the default view, max depth, max nodes, toggle child counts and add a SOQL filter condition.' }
   ];
   var current = 0;
   var tabs = document.getElementById('tabs'), thumbs = document.getElementById('thumbs'), body = document.getElementById('stageBody');

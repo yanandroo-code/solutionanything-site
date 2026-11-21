@@ -139,7 +139,7 @@ footer a:hover { color: var(--accent); }
       <p>AnyRecordHierarchy+ is a Lightning Web Component that runs on Lightning record pages. It shows the ancestors and descendants of the current record by following a self-referencing lookup field.</p>
       <ul>
         <li><strong>Lightning Experience</strong> with permission to edit record pages in Lightning App Builder.</li>
-        <li><strong>An object with a self-lookup</strong> — a lookup field that points back to the same object. Standard examples include Account (via <code>ParentId</code>) and any custom object with a self-referencing lookup.</li>
+        <li><strong>An object with a self-lookup</strong>: a lookup field that points back to the same object. Standard examples include Account (via <code>ParentId</code>) and any custom object with a self-referencing lookup.</li>
       </ul>
       <p class="muted">No external services are involved. The component reads records through standard Salesforce APIs, and every query respects object and field-level security.</p>
     </section>
@@ -197,10 +197,10 @@ footer a:hover { color: var(--accent); }
       </figure>
 
       <h3>Display fields</h3>
-      <p>Add up to <strong>five display fields</strong> that appear as columns in the table view or as badges in the tree view. These can be any field on the object — Type, Industry, BillingCity, Owner, or custom fields.</p>
+      <p>Add up to <strong>five display fields</strong> that appear as columns in the table view or as badges in the tree view. These can be any field on the object: Type, Industry, BillingCity, Owner, or custom fields.</p>
 
       <h3>Node colours</h3>
-      <p>Choose a <strong>Colour By Field</strong> (a picklist field) and assign a colour to each picklist value. Nodes in the tree view get a coloured bar on the left; table rows show a coloured indicator. This makes it easy to spot patterns — customers vs partners, active vs inactive, or any other category.</p>
+      <p>Choose a <strong>Colour By Field</strong> (a picklist field) and assign a colour to each picklist value. Nodes in the tree view get a coloured bar on the left; table rows show a coloured indicator. This makes it easy to spot patterns like customers vs partners, active vs inactive, or any other category.</p>
 
       <h3>Display section</h3>
       <div class="table-wrap">
@@ -229,11 +229,11 @@ footer a:hover { color: var(--accent); }
     <section id="using">
       <h2><span class="n">6</span>Using the hierarchy</h2>
       <ul>
-        <li><strong>Expand / Collapse</strong> — Click the arrow next to any node, or use the Expand All / Collapse All buttons in the header.</li>
-        <li><strong>Navigate</strong> — Click any record name to navigate to that record's page. The hierarchy reloads centred on the new record.</li>
-        <li><strong>Current record</strong> — The record you are viewing is highlighted with a dot and a subtle background colour.</li>
-        <li><strong>Child counts</strong> — When enabled, each node shows the number of direct children in parentheses.</li>
-        <li><strong>Tree vs Table</strong> — Tree view is compact and shows colour bars. Table view shows the full set of display fields as columns.</li>
+        <li><strong>Expand / Collapse</strong>: Click the arrow next to any node, or use the Expand All / Collapse All buttons in the header.</li>
+        <li><strong>Navigate</strong>: Click any record name to navigate to that record's page. The hierarchy reloads centred on the new record.</li>
+        <li><strong>Current record</strong>: The record you are viewing is highlighted with a dot and a subtle background colour.</li>
+        <li><strong>Child counts</strong>: When enabled, each node shows the number of direct children in parentheses.</li>
+        <li><strong>Tree vs Table</strong>: Tree view is compact and shows colour bars. Table view shows the full set of display fields as columns.</li>
       </ul>
       <figure class="shot">
         <img src="screenshots/tree-view.png" alt="Tree view showing colour-coded Account hierarchy">
@@ -247,15 +247,15 @@ footer a:hover { color: var(--accent); }
       <h3>The component shows "No hierarchy found"</h3>
       <ul>
         <li>Make sure the current record's object has a self-referencing lookup field.</li>
-        <li>Check that the record is part of a hierarchy — it needs either a parent or children (or both) to display anything.</li>
+        <li>Check that the record is part of a hierarchy. It needs either a parent or children (or both) to display anything.</li>
         <li>Verify the user has the <code>AnyRecordHierarchy+ User</code> permission set and read access to the object and fields.</li>
       </ul>
 
       <h3>Some records are missing from the tree</h3>
       <ul>
-        <li>Check field-level security — the user must have read access to the parent lookup field, name field and all display fields.</li>
-        <li>Check the WHERE clause filter — it may be excluding records you expect to see.</li>
-        <li>Check Max Depth and Max Nodes — increase them if the hierarchy is larger than the defaults.</li>
+        <li>Check field-level security. The user must have read access to the parent lookup field, name field and all display fields.</li>
+        <li>Check the WHERE clause filter. It may be excluding records you expect to see.</li>
+        <li>Check Max Depth and Max Nodes. Increase them if the hierarchy is larger than the defaults.</li>
       </ul>
 
       <h3>The gear icon doesn't appear</h3>
