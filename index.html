@@ -165,17 +165,30 @@ h1, h2, h3 { text-wrap: balance; letter-spacing: -0.015em; line-height: 1.15; }
 @media (max-width: 480px) { .apps-grid { grid-template-columns: 1fr; } }
 .app-card {
   background: var(--surface); border: 1px solid var(--surface-border); border-radius: 16px;
-  padding: 28px 24px; text-align: center; text-decoration: none; color: var(--fg);
-  transition: border-color .15s, transform .15s;
+  padding: 0; text-align: center; text-decoration: none; color: var(--fg);
+  transition: border-color .15s, transform .15s; overflow: hidden;
 }
 .app-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+.app-card-scene { width: 100%; aspect-ratio: 16/9; object-fit: cover; object-position: center center; border-bottom: 1px solid var(--surface-border); }
+.app-card-body { padding: 20px 20px 24px; }
 .app-icon-lg {
-  width: 56px; height: 56px; border-radius: 14px;
-  overflow: hidden; margin: 0 auto 16px;
+  width: 44px; height: 44px; border-radius: 12px;
+  overflow: hidden; margin: 0 auto 12px;
 }
 .app-icon-lg img { width: 100%; height: 100%; display: block; }
 .app-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
 .app-card p { font-size: .88rem; color: var(--fg-muted); line-height: 1.55; }
+.suite-cta {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 28px;
+  font: 600 15px var(--font); color: #fff; background: var(--accent);
+  padding: 12px 24px; border-radius: 10px; text-decoration: none;
+  transition: background .15s, transform .1s;
+}
+.suite-cta:hover { background: var(--accent-hover); }
+.suite-cta:active { transform: scale(.98); }
+.suite-cta svg { flex-shrink: 0; }
+.suite-hero-art { max-width: 440px; margin: 0 auto 28px; }
+.suite-hero-art img { border-radius: 20px; background: #F8FAFD; border: 1px solid var(--surface-border); box-shadow: var(--shadow); }
 
 /* CTA band */
 .cta-band {
@@ -297,38 +310,44 @@ footer a:hover { color: var(--accent); }
     <p class="lead">We build and ship our own apps. Here's what's live today.</p>
 
     <div class="suite-header" style="margin-top: 48px;">
+      <div class="suite-hero-art"><img src="anysuite/brand/hero-scene.png" alt="Otto, Penny, Pim and Sage present the four Any+ Suite app icons on an easel" loading="lazy"></div>
       <div class="suite-badge">Free on the Salesforce AppExchange</div>
       <h2 style="font-size: clamp(1.5rem, 2.8vw, 2rem);"><a href="/anysuite/" style="color: inherit; text-decoration: none;">The <span style="color: var(--accent);">Any+ Suite</span></a></h2>
       <p class="lead">Four Lightning Web Components in one package. Drop them on any record page, pick an object and configure in clicks. No code, no data leaving your org.</p>
+      <a class="suite-cta" href="/anysuite/">Explore the Any+ Suite <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
     <div class="apps-grid">
       <a class="app-card" href="/anycal/">
-        <div class="app-icon-lg">
-          <img src="anycal/brand/icon.svg" alt="AnyCal+ icon" width="56" height="56">
+        <img class="app-card-scene" src="anycal/brand/hero-1600x900.png" alt="AnyCal+ mascots" loading="lazy">
+        <div class="app-card-body">
+          <div class="app-icon-lg"><img src="anycal/brand/icon.svg" alt="AnyCal+ icon" width="44" height="44"></div>
+          <h3>AnyCal+</h3>
+          <p>Show related records as calendar events. Monthly, weekly and daily views with drag-and-drop rescheduling.</p>
         </div>
-        <h3>AnyCal+</h3>
-        <p>Show related records as calendar events. Monthly, weekly and daily views with drag-and-drop rescheduling.</p>
       </a>
       <a class="app-card" href="/anykanban/">
-        <div class="app-icon-lg">
-          <img src="anykanban/brand/icon.svg" alt="AnyKanban+ icon" width="56" height="56">
+        <img class="app-card-scene" src="anykanban/brand/png/scene-c-social.png" alt="AnyKanban+ mascot" loading="lazy">
+        <div class="app-card-body">
+          <div class="app-icon-lg"><img src="anykanban/brand/icon.svg" alt="AnyKanban+ icon" width="44" height="44"></div>
+          <h3>AnyKanban+</h3>
+          <p>Drag-and-drop Kanban board driven by any picklist field. Cards move between columns and update the record instantly.</p>
         </div>
-        <h3>AnyKanban+</h3>
-        <p>Drag-and-drop Kanban board driven by any picklist field. Cards move between columns and update the record instantly.</p>
       </a>
       <a class="app-card" href="/anygantt/">
-        <div class="app-icon-lg">
-          <img src="anygantt/brand/icon.svg" alt="AnyGantt+ icon" width="56" height="56">
+        <img class="app-card-scene" src="anygantt/brand/scene-c-social.png" alt="AnyGantt+ mascot" loading="lazy">
+        <div class="app-card-body">
+          <div class="app-icon-lg"><img src="anygantt/brand/icon.svg" alt="AnyGantt+ icon" width="44" height="44"></div>
+          <h3>AnyGantt+</h3>
+          <p>Scrollable Gantt timeline. Pick start and end date fields and records appear as colour-coded bars across day, week or month views.</p>
         </div>
-        <h3>AnyGantt+</h3>
-        <p>Scrollable Gantt timeline. Pick start and end date fields and records appear as colour-coded bars across day, week or month views.</p>
       </a>
       <a class="app-card" href="/anyhierarchy/">
-        <div class="app-icon-lg">
-          <img src="anyhierarchy/brand/icon.svg" alt="AnyHierarchy+ icon" width="56" height="56">
+        <img class="app-card-scene" src="anyhierarchy/scenes/scene-c.png" alt="AnyHierarchy+ mascot" loading="lazy">
+        <div class="app-card-body">
+          <div class="app-icon-lg"><img src="anyhierarchy/brand/icon.svg" alt="AnyHierarchy+ icon" width="44" height="44"></div>
+          <h3>AnyHierarchy+</h3>
+          <p>Expandable tree view for self-referencing objects. Pick a parent lookup field and see the full ancestor and descendant chain.</p>
         </div>
-        <h3>AnyHierarchy+</h3>
-        <p>Expandable tree view for self-referencing objects. Pick a parent lookup field and see the full ancestor and descendant chain.</p>
       </a>
     </div>
 
